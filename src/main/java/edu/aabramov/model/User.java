@@ -1,6 +1,7 @@
 package edu.aabramov.model;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
@@ -15,8 +16,8 @@ public class User implements Serializable {
     
     @Id
     private String id;
+    @Indexed
     private String username;
-    private String password;
     
     private List<Todo> todos;
     
@@ -40,31 +41,22 @@ public class User implements Serializable {
         this.username = username;
     }
     
-    public String getPassword() {
-        return password;
-    }
-    
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         return Objects.equals(todos, user.todos) &&
-                Objects.equals(username, user.username) &&
-                Objects.equals(password, user.password);
+                Objects.equals(username, user.username);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(todos, username, password);
+        return Objects.hash(todos, username);
     }
     
     @Override
     public String toString() {
-        return String.format("User{id='%s', todos=%s, username='%s', password='%s'}", id, todos, username, password);
+        return String.format("User{id='%s', todos=%s, username='%s'}", id, todos, username);
     }
 }

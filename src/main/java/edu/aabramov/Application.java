@@ -36,25 +36,24 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         
-        userRepository.deleteAll();
-        
-        for (int i = 0; i < 5; i++) {
-            final int index = i;
-            List<Todo> todos = IntStream.range(1, 5).mapToObj(n -> getTodo(n * index)).collect(Collectors.toList());
-            User user = new User();
-            user.setUsername("User_" + index);
-            user.setPassword("Password_" + index);
-            user.setTodos(todos);
-            
-            System.err.println(user);
-            
-            user = userRepository.save(user);
-            
-            System.err.println(user);
-        }
-        
-        
-        System.err.println(userRepository.findAll());
+//        userRepository.deleteAll();
+//
+//        for (int i = 0; i < 5; i++) {
+//            final int index = i;
+//            List<Todo> todos = IntStream.range(1, 5).mapToObj(n -> getTodo(n * index)).collect(Collectors.toList());
+//            User user = new User();
+//            user.setUsername("User_" + index);
+//            user.setTodos(todos);
+//
+//            System.err.println(user);
+//
+//            user = userRepository.save(user);
+//
+//            System.err.println(user);
+//        }
+//
+//
+//        System.err.println(userRepository.findAll());
     }
     
     private Todo getTodo(int number) {

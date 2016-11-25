@@ -1,5 +1,6 @@
 package edu.aabramov.service;
 
+import edu.aabramov.model.Todo;
 import edu.aabramov.model.User;
 import edu.aabramov.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class UserService {
     }
     
     public User getUser(String id) {
-        String hashKey = "user:" + id;
+        String hashKey = "user:id:" + id;
         if (hashOperations.hasKey(USER_REDIS_KEY, hashKey)) {
             return hashOperations.get(USER_REDIS_KEY, hashKey);
         } else {
@@ -40,6 +41,28 @@ public class UserService {
             hashOperations.put(USER_REDIS_KEY, hashKey, result);
             return result;
         }
+    }
+    
+    public User getUserBuUsername(String username) {
+        String hashKey = "user:username:" + username;
+        if (hashOperations.hasKey(USER_REDIS_KEY, hashKey)) {
+            return hashOperations.get(USER_REDIS_KEY, hashKey);
+        } else {
+            User result = userRepository.findOneByUsername(username);
+            hashOperations.put(USER_REDIS_KEY, hashKey, result);
+            return result;
+        }
+    }
+    
+    public User addUserTodo(String id, Todo todo) {
+        User user = getUser(id);
+        user.getTodos().add(todo);
+        user = userRepository.save(user);
+        
+        String hashKey = "user:id:" + user.getId();
+        
+        hashOperations.put(USER_REDIS_KEY, hashKey, user);
+        return user;
     }
     
 }

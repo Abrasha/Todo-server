@@ -13,3 +13,5 @@ hs_err_pid*
 .idea
 out
 Todo-server.iml
+dump.rdb
+run-*.sh
