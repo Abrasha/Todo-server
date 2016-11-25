@@ -15,3 +15,5 @@ out
 Todo-server.iml
 dump.rdb
 run-*.sh
+build
+.gradle
