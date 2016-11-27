@@ -1,5 +1,10 @@
 package edu.aabramov.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
+import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +18,8 @@ public class Todo implements Serializable {
     // TODO: 11/25/16 add status field
     private String title;
     private String body;
+    
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date when;
     
     private Priority priority;
