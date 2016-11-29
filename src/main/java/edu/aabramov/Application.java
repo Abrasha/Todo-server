@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
@@ -24,7 +25,8 @@ import static java.util.Arrays.asList;
 @SpringBootApplication
 @EnableMongoRepositories
 @EnableRedisRepositories
-public class Application implements CommandLineRunner {
+@PropertySource("classpath:credentials.properties")
+public class Application  {
     
     @Autowired
     private UserRepository userRepository;
@@ -33,38 +35,4 @@ public class Application implements CommandLineRunner {
         SpringApplication.run(Application.class, args);
     }
     
-    @Override
-    public void run(String... args) throws Exception {
-        
-//        userRepository.deleteAll();
-//
-//        for (int i = 0; i < 5; i++) {
-//            final int index = i;
-//            List<Todo> todos = IntStream.range(1, 5).mapToObj(n -> getTodo(n * index)).collect(Collectors.toList());
-//            User user = new User();
-//            user.setUsername("User_" + index);
-//            user.setTodos(todos);
-//
-//            System.err.println(user);
-//
-//            user = userRepository.save(user);
-//
-//            System.err.println(user);
-//        }
-//
-//
-//        System.err.println(userRepository.findAll());
-    }
-    
-    private Todo getTodo(int number) {
-        Todo todo = new Todo();
-        todo.setBody("Body #" + number);
-        todo.setWhen(new Date());
-        todo.setPriority(Priority.DEFAULT);
-        todo.setTitle("Title #" + number);
-        
-        todo.setTags(asList("Tag " + number, "Tag " + number * 2));
-        
-        return todo;
-    }
 }

@@ -52,7 +52,7 @@ public class UserController {
     
     @GetMapping(path = "/usernames/{username}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public User getUserByUsername(@PathVariable("username") String username) {
-        return userService.getUserBuUsername(username);
+        return userService.getUserByUsername(username);
     }
     
     @PostMapping(path = "/users/{userId}/todos", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
