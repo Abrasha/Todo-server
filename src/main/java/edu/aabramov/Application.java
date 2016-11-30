@@ -25,7 +25,6 @@ import static java.util.Arrays.asList;
 @SpringBootApplication
 @EnableMongoRepositories
 @EnableRedisRepositories
-@PropertySource("classpath:credentials.properties")
 public class Application  {
     
     @Autowired

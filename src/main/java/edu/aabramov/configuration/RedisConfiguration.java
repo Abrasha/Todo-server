@@ -15,22 +15,14 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Configuration
 public class RedisConfiguration {
     
-    private final Environment env;
-    
-    @Autowired
-    public RedisConfiguration(Environment env) {
-        this.env = env;
-    }
-    
     @Bean
     @Primary
     public JedisConnectionFactory jedisConnectionFactory() {
         JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
         jedisConnectionFactory.setUsePool(true);
-        jedisConnectionFactory.setHostName(env.getProperty("spring.redis.host"));
-        jedisConnectionFactory.setPort(Integer.valueOf(env.getProperty("spring.redis.port")));
-        jedisConnectionFactory.setPassword(env.getProperty("spring.redis.password"));
-        jedisConnectionFactory.setUsePool(true);
+        // default configurations
+        jedisConnectionFactory.setHostName("localhost");
+        jedisConnectionFactory.setPort(6379);
         return jedisConnectionFactory;
     }
     
