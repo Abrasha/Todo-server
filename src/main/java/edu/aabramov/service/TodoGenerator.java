@@ -1,0 +1,69 @@
+package edu.aabramov.service;
+
+import com.github.javafaker.Faker;
+import edu.aabramov.model.Priority;
+import edu.aabramov.model.Todo;
+import edu.aabramov.util.DateGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+
+/**
+ * @author Andrii Abramov on 11/30/16.
+ */
+@Component
+public class TodoGenerator {
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(TodoGenerator.class);
+    
+    private final Faker faker;
+    private final DateGenerator dateGenerator;
+    
+    @Autowired
+    public TodoGenerator(Faker faker, DateGenerator dateGenerator) {
+        LOGGER.debug("TodoGenerator init");
+        this.faker = faker;
+        this.dateGenerator = dateGenerator;
+    }
+    
+    public Todo getRandomTodo() {
+        LOGGER.debug("getRandomTodo");
+        return generateRandomTodo();
+    }
+    
+    public List<Todo> getRandomTodos(int count) {
+        LOGGER.debug("generating {} todos", count);
+        
+        List<Todo> result = new ArrayList<>(count);
+        
+        for (int i = 0; i < count; i++) {
+            result.add(generateRandomTodo());
+        }
+        
+        return result;
+    }
+    
+    private Todo generateRandomTodo() {
+        LOGGER.debug("generateRandomTodo");
+        
+        Todo result = new Todo();
+        
+        result.setTitle(faker.words(3).stream().collect(Collectors.joining(" ")));
+        result.setBody(faker.words(10).stream().collect(Collectors.joining(" ")));
+        result.setTags(new ArrayList<>(faker.words(3)));
+        result.setPriority(Priority.getRandom());
+        
+        Date date = dateGenerator.getRandomDate();
+        result.setWhen(date);
+        
+        return result;
+    }
+    
+    
+}

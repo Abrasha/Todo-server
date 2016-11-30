@@ -4,13 +4,15 @@ import edu.aabramov.model.Todo;
 import edu.aabramov.model.User;
 import edu.aabramov.model.UserDetails;
 import edu.aabramov.repository.UserRepository;
+import edu.aabramov.service.TodoService;
 import edu.aabramov.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 /**
  * @author Andrii Abramov on 11/24/16.
@@ -18,13 +20,18 @@ import java.util.stream.Collectors;
 @RestController
 public class UserController {
     
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final UserService userService;
+    private final TodoService todoService;
     
     @Autowired
-    private UserService userService;
+    public UserController(UserRepository userRepository, UserService userService, TodoService todoService) {
+        this.userRepository = userRepository;
+        this.userService = userService;
+        this.todoService = todoService;
+    }
     
-    @GetMapping(path = "/users", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/users", produces = APPLICATION_JSON_UTF8_VALUE)
     public List<UserDetails> getAllUsers() {
         return userRepository.findAll()
                 .stream()
@@ -32,17 +39,12 @@ public class UserController {
                 .collect(Collectors.toList());
     }
     
-    @GetMapping(path = "/users/{userId}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/users/{userId}", produces = APPLICATION_JSON_UTF8_VALUE)
     public User getUser(@PathVariable("userId") String userId) {
         return userService.getUser(userId);
     }
     
-    @GetMapping(path = "/users/{userId}/todos", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public List<Todo> getUserTodos(@PathVariable("userId") String userId) {
-        return userService.getUser(userId).getTodos();
-    }
-    
-    @GetMapping(path = "/usernames", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/usernames", produces = APPLICATION_JSON_UTF8_VALUE)
     public List<String> getUsernames() {
         return userRepository.findAll()
                 .stream()
@@ -50,14 +52,20 @@ public class UserController {
                 .collect(Collectors.toList());
     }
     
-    @GetMapping(path = "/usernames/{username}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/usernames/{username}", produces = APPLICATION_JSON_UTF8_VALUE)
     public User getUserByUsername(@PathVariable("username") String username) {
         return userService.getUserByUsername(username);
     }
     
-    @PostMapping(path = "/users/{userId}/todos", consumes = MediaType.APPLICATION_JSON_UTF8_VALUE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    
+    @PostMapping(path = "/users", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    public User addUser(@RequestBody User user) {
+        return userService.addUser(user);
+    }
+    
+    @PostMapping(path = "/users/{userId}/todos", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public User addUserTodo(@PathVariable("userId") String userId, @RequestBody Todo todo) {
-        return userService.addUserTodo(userId, todo);
+        return todoService.addUserTodo(userId, todo);
     }
     
 }

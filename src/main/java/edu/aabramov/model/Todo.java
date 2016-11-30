@@ -15,6 +15,7 @@ import java.util.Objects;
  */
 
 public class Todo implements Serializable {
+    private static final long serialVersionUID = 618982007097689618L;
     // TODO: 11/25/16 add status field
     private String title;
     private String body;
