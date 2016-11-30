@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author Andrii Abramov on 11/30/16.
@@ -54,9 +53,9 @@ public class TodoGenerator {
         
         Todo result = new Todo();
         
-        result.setTitle(faker.words(3).stream().collect(Collectors.joining(" ")));
-        result.setBody(faker.words(10).stream().collect(Collectors.joining(" ")));
-        result.setTags(new ArrayList<>(faker.words(3)));
+        result.setTitle(faker.lorem().sentence());
+        result.setBody(faker.lorem().paragraph(2));
+        result.setTags(faker.lorem().words(3));
         result.setPriority(Priority.getRandom());
         
         Date date = dateGenerator.getRandomDate();
