@@ -13,14 +13,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 public class RedisConfiguration {
     
     @Bean
-    @Primary
-    public JedisConnectionFactory jedisConnectionFactory() {
-        JedisConnectionFactory jedisConnectionFactory = new JedisConnectionFactory();
-        jedisConnectionFactory.setUsePool(true);
-        return jedisConnectionFactory;
-    }
-    
-    @Bean
     public RedisTemplate<?, ?> redisTemplate(JedisConnectionFactory factory) {
         RedisTemplate<Object, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(factory);
