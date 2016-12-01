@@ -5,7 +5,7 @@ def springBootVersion = '1.4.2.RELEASE'
 def springDataRedisVersion = '1.7.5.RELEASE'
 def jedisVersion = '2.9.0'
 def apacheCommonsVersion = '2.4.2'
-def javaFakerVersion = '0.11'
+def javaFakerVersion = '0.12'
 
 repositories {
     jcenter()
@@ -17,7 +17,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE")
+        classpath('org.springframework.boot:spring-boot-gradle-plugin:1.4.2.RELEASE')
     }
 }
 

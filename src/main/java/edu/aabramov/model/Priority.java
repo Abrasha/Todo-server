@@ -9,7 +9,7 @@ public enum Priority {
     
     DEFAULT, HIGH, MEDIUM, LOW;
     
-    private static Random random = new Random();
+    private static final Random random = new Random();
     
     public static Priority getRandom() {
         return values()[random.nextInt(values().length)];

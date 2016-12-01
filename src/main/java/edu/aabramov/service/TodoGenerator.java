@@ -2,6 +2,7 @@ package edu.aabramov.service;
 
 import com.github.javafaker.Faker;
 import edu.aabramov.model.Priority;
+import edu.aabramov.model.Status;
 import edu.aabramov.model.Todo;
 import edu.aabramov.util.DateGenerator;
 import org.slf4j.Logger;
@@ -57,6 +58,7 @@ public class TodoGenerator {
         result.setBody(faker.lorem().paragraph(2));
         result.setTags(faker.lorem().words(3));
         result.setPriority(Priority.getRandom());
+        result.setStatus(Status.getRandom());
         
         Date date = dateGenerator.getRandomDate();
         result.setWhen(date);

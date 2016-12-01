@@ -1,9 +1,6 @@
 package edu.aabramov.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.DateSerializer;
-import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -13,9 +10,10 @@ import java.util.Objects;
 /**
  * @author Andrii Abramov on 11/24/16.
  */
-
 public class Todo implements Serializable {
+    
     private static final long serialVersionUID = 618982007097689618L;
+    
     // TODO: 11/25/16 add status field
     private String title;
     private String body;
@@ -24,6 +22,7 @@ public class Todo implements Serializable {
     private Date when;
     
     private Priority priority;
+    private Status status;
     
     private List<String> tags;
     
@@ -67,6 +66,14 @@ public class Todo implements Serializable {
         this.tags = tags;
     }
     
+    public Status getStatus() {
+        return status;
+    }
+    
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+    
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,6 +92,6 @@ public class Todo implements Serializable {
     
     @Override
     public String toString() {
-        return String.format("Todo{title='%s', body='%s', when=%s, priority=%s, tags=%s}", title, body, when, priority, tags);
+        return String.format("Todo{title='%s', body='%s', when=%s, priority=%s, status=%s, tags=%s}", title, body, when, priority, status, tags);
     }
 }

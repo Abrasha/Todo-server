@@ -15,19 +15,21 @@ import java.util.Objects;
 public class User implements Serializable {
     
     private static final long serialVersionUID = 7526488181196658002L;
+    
     @Id
     private String id;
+    
     @Indexed
     private String username;
     
     private List<Todo> todos;
     
-    public void setId(String id) {
-        this.id = id;
-    }
-    
     public String getId() {
         return id;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
     }
     
     public List<Todo> getTodos() {

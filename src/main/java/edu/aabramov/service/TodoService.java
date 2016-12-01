@@ -14,6 +14,7 @@ import java.util.List;
  */
 @Service
 public class TodoService {
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(TodoService.class);
     
     private final TodoGenerator todoGenerator;

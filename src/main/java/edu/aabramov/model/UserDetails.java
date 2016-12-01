@@ -16,8 +16,7 @@ public class UserDetails {
     }
     
     public UserDetails(User user) {
-        this.id = user.getId();
-        this.username = user.getUsername();
+        this(user.getId(), user.getUsername());
     }
     
     public String getId() {

@@ -16,6 +16,7 @@ import java.util.ArrayList;
  */
 @Service
 public class UserService {
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
     
     private static final String USER_REDIS_KEY = "User";

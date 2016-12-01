@@ -16,6 +16,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
  */
 @RestController
 public class TodoController {
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(TodoController.class);
     
     private final TodoService todoService;
@@ -33,6 +34,7 @@ public class TodoController {
     
     @GetMapping(path = "/users/{userId}/todos", produces = APPLICATION_JSON_UTF8_VALUE)
     public List<Todo> getUserTodos(@PathVariable("userId") String userId) {
+        LOGGER.debug("todos requested for user with id = {}", userId);
         return todoService.getUserTodos(userId);
     }
     
