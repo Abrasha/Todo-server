@@ -28,11 +28,10 @@ public class TodoService {
         this.todoGenerator = todoGenerator;
     }
     
-    
     public List<Todo> insertRandomTodos(int count, String userId) {
         LOGGER.debug("inserting {} random todos for user id: {}", count, userId);
         List<Todo> todos = todoGenerator.getRandomTodos(count);
-        User user = userService.getUser(userId);
+        User user = userService.findOne(userId);
         LOGGER.debug("{} user loaded", user.getId());
         user.getTodos().addAll(todos);
         LOGGER.debug("updating user {} with {}", user.getId(), user);
@@ -42,7 +41,7 @@ public class TodoService {
     
     public User addUserTodo(String id, Todo todo) {
         LOGGER.debug("adding todo: {} to user id: {}", todo, id);
-        User user = userService.getUser(id);
+        User user = userService.findOne(id);
         LOGGER.debug("{} user loaded", user.getId());
         user.getTodos().add(todo);
         LOGGER.debug("updating user {} with {}", user.getId(), todo);
@@ -53,7 +52,7 @@ public class TodoService {
     // TODO: 12/1/16 $unwind
     public List<Todo> getUserTodos(String userId) {
         LOGGER.debug("requested todos for user id = {}", userId);
-        User user = userService.getUser(userId);
+        User user = userService.findOne(userId);
         LOGGER.debug("got user {}", userId);
         return user.getTodos();
     }

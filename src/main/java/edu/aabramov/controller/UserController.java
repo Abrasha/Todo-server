@@ -48,7 +48,7 @@ public class UserController {
     @GetMapping(path = "/users/{userId}", produces = APPLICATION_JSON_UTF8_VALUE)
     public User getUser(@PathVariable("userId") String userId) {
         LOGGER.debug("user {} requested", userId);
-        return userService.getUser(userId);
+        return userService.findOne(userId);
     }
     
     @GetMapping(path = "/usernames", produces = APPLICATION_JSON_UTF8_VALUE)
@@ -63,14 +63,14 @@ public class UserController {
     @GetMapping(path = "/usernames/{username}", produces = APPLICATION_JSON_UTF8_VALUE)
     public User getUserByUsername(@PathVariable("username") String username) {
         LOGGER.debug("user with {} username requested", username);
-        return userService.getUserByUsername(username);
+        return userService.findByUsername(username);
     }
     
     
     @PostMapping(path = "/users", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public User addUser(@RequestBody User user) {
         LOGGER.debug("adding user = {}", user);
-        return userService.addUser(user);
+        return userService.insert(user);
     }
     
     @PostMapping(path = "/users/{userId}/todos", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)

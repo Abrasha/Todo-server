@@ -22,7 +22,7 @@ public class DateGenerator {
     public Date getRandomDate() {
         Calendar calendar = Calendar.getInstance();
         
-        int year = randomUtil.getRandomInt(1970, 48); // 1970 -> 2017
+        int year = randomUtil.getRandomInt(1970, 2017); // 1970 -> 2017
         int month = randomUtil.getRandomInt(12);
         
         int day;

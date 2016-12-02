@@ -17,7 +17,7 @@ public class RandomUtil {
     }
     
     public int getRandomInt(int min, int max) {
-        return min + random.nextInt(max);
+        return min + random.nextInt(max - min);
     }
     
 }
