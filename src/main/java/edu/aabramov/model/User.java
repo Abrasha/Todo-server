@@ -11,7 +11,7 @@ import java.util.Objects;
 /**
  * @author Andrii Abramov on 11/24/16.
  */
-@Document
+@Document(collection = "users")
 public class User implements Serializable {
     
     private static final long serialVersionUID = 7526488181196658002L;
@@ -64,6 +64,6 @@ public class User implements Serializable {
     
     @Override
     public String toString() {
-        return String.format("User{id='%s', todos=%s, username='%s'}", id, todos, username);
+        return String.format("User{id='%s', username='%s', todos=%s}", id, username, todos);
     }
 }

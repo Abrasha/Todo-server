@@ -1,6 +1,7 @@
 package edu.aabramov.service;
 
 import edu.aabramov.model.User;
+import edu.aabramov.model.UserDetails;
 import edu.aabramov.model.UserExistsDto;
 import edu.aabramov.repository.UserRepository;
 import edu.aabramov.repository.cache.UserCache;
@@ -10,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Andrii Abramov on 11/25/16.
@@ -45,7 +48,7 @@ public class UserService {
             
             LOGGER.debug("for user = {} from repository", result);
             LOGGER.debug("putting user = {} to cache");
-            userCache.put(hashKey, result);
+            userCache.refreshUserInCache(result);
             
             LOGGER.debug("put user = {} to cache - done");
             return result;
@@ -61,11 +64,9 @@ public class UserService {
         User savedUser = userRepository.save(user);
         
         LOGGER.debug("saved user = {} to repository", savedUser);
-        String hashKey = userCache.getIdKey(savedUser.getId());
         
         LOGGER.debug("putting user = {} to cache", savedUser);
-        LOGGER.debug("created hash key = {} for user with id = {}", hashKey, id);
-        userCache.put(hashKey, savedUser);
+        userCache.refreshUserInCache(savedUser);
         LOGGER.debug("put user = {} to cache - done", savedUser);
         return savedUser;
     }
@@ -78,21 +79,22 @@ public class UserService {
         LOGGER.debug("created hash key = {} for user with username = {}", hashKey, username);
         LOGGER.debug("check if user with username = {} exists in cache", username);
         
+        User foundUser;
         if (userCache.hasKey(hashKey)) {
             LOGGER.debug("user with username = {} is in cache", username);
-            return userCache.get(hashKey);
+            foundUser = userCache.get(hashKey);
         } else {
             LOGGER.debug("user with username = {} is not in cache", username);
             LOGGER.debug("getting user with username = {} from repository", username);
-            User result = userRepository.findOneByUsername(username);
+            foundUser = userRepository.findOneByUsername(username);
             
-            LOGGER.debug("got user with username = {} from repository, user = {}", username, result);
+            LOGGER.debug("got user with username = {} from repository, user = {}", username, foundUser);
             LOGGER.debug("putting user = {} to cache");
-            userCache.put(hashKey, result);
+            userCache.refreshUserInCache(foundUser);
             
             LOGGER.debug("put user = {} to cache - done");
-            return result;
         }
+        return foundUser;
     }
     
     public User insert(User user) {
@@ -104,9 +106,8 @@ public class UserService {
         }
         
         User result = userRepository.insert(user);
-        String hashKey = userCache.getIdKey(result.getId());
-        LOGGER.debug("inserting user = {} to cache with hashKey = {}", user, hashKey);
-        userCache.put(hashKey, result);
+        LOGGER.debug("inserting user = {} to cache with hashKey = {}", user);
+        userCache.refreshUserInCache(result);
         LOGGER.debug("inserting user = {} to repository", user);
         return result;
     }
@@ -119,4 +120,17 @@ public class UserService {
         return new UserExistsDto(username, exists);
     }
     
+    public List<String> getUsernames() {
+        return userRepository.findAll()
+                .stream()
+                .map(User::getUsername)
+                .collect(Collectors.toList());
+    }
+    
+    public List<UserDetails> getAllUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(UserDetails::new)
+                .collect(Collectors.toList());
+    }
 }

@@ -3,7 +3,6 @@ package edu.aabramov.controller;
 import edu.aabramov.model.Todo;
 import edu.aabramov.model.User;
 import edu.aabramov.model.UserDetails;
-import edu.aabramov.model.UserExistsDto;
 import edu.aabramov.repository.UserRepository;
 import edu.aabramov.service.TodoService;
 import edu.aabramov.service.UserService;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
@@ -25,14 +23,12 @@ public class UserController {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     
-    private final UserRepository userRepository;
     private final UserService userService;
     private final TodoService todoService;
     
     @Autowired
     public UserController(UserRepository userRepository, UserService userService, TodoService todoService) {
         LOGGER.debug("UserController init");
-        this.userRepository = userRepository;
         this.userService = userService;
         this.todoService = todoService;
     }
@@ -40,37 +36,13 @@ public class UserController {
     @GetMapping(path = "/users", produces = APPLICATION_JSON_UTF8_VALUE)
     public List<UserDetails> getAllUsers() {
         LOGGER.debug("all users requested");
-        return userRepository.findAll()
-                .stream()
-                .map(UserDetails::new)
-                .collect(Collectors.toList());
+        return userService.getAllUsers();
     }
     
     @GetMapping(path = "/users/{userId}", produces = APPLICATION_JSON_UTF8_VALUE)
     public User getUser(@PathVariable("userId") String userId) {
         LOGGER.debug("user {} requested", userId);
         return userService.findOne(userId);
-    }
-    
-    @GetMapping(path = "/usernames", produces = APPLICATION_JSON_UTF8_VALUE)
-    public List<String> getUsernames() {
-        LOGGER.debug("ass usernames requested");
-        return userRepository.findAll()
-                .stream()
-                .map(User::getUsername)
-                .collect(Collectors.toList());
-    }
-    
-    @GetMapping(path = "/usernames/{username}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public User getUserByUsername(@PathVariable("username") String username) {
-        LOGGER.debug("user with {} username requested", username);
-        return userService.findByUsername(username);
-    }
-    
-    @GetMapping(path = "/usernames/exists/{username}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public UserExistsDto checkIfUserExists(@PathVariable("username") String username) {
-        LOGGER.debug("user with {} username requested", username);
-        return userService.existsWithUsername(username);
     }
     
     @PostMapping(path = "/users", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)

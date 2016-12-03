@@ -24,4 +24,21 @@ public class UserCache extends EntityCache<User> {
         return "user:username:" + username;
     }
     
+    public void putWithUsername(String username, User user) {
+        put(getUsernameKey(username), user);
+    }
+    
+    public void putWithId(String userId, User user) {
+        put(getUsernameKey(userId), user);
+    }
+    
+    public void refreshUserInCache(User user) {
+        if (user == null) {
+            return;
+        }
+        putWithUsername(user.getUsername(), user);
+        putWithId(user.getId(), user);
+    }
+    
+    
 }
