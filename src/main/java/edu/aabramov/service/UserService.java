@@ -1,6 +1,7 @@
 package edu.aabramov.service;
 
 import edu.aabramov.model.User;
+import edu.aabramov.model.UserExistsDto;
 import edu.aabramov.repository.UserRepository;
 import edu.aabramov.repository.cache.UserCache;
 import org.slf4j.Logger;
@@ -109,4 +110,13 @@ public class UserService {
         LOGGER.debug("inserting user = {} to repository", user);
         return result;
     }
+    
+    public UserExistsDto existsWithUsername(String username) {
+        LOGGER.debug("check if user with username = {} exists", username);
+        
+        boolean exists = findByUsername(username) != null;
+        LOGGER.debug("user with username {} exists: ", exists);
+        return new UserExistsDto(username, exists);
+    }
+    
 }

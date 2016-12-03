@@ -3,6 +3,7 @@ package edu.aabramov.controller;
 import edu.aabramov.model.Todo;
 import edu.aabramov.model.User;
 import edu.aabramov.model.UserDetails;
+import edu.aabramov.model.UserExistsDto;
 import edu.aabramov.repository.UserRepository;
 import edu.aabramov.service.TodoService;
 import edu.aabramov.service.UserService;
@@ -66,6 +67,11 @@ public class UserController {
         return userService.findByUsername(username);
     }
     
+    @GetMapping(path = "/usernames/exists/{username}", produces = APPLICATION_JSON_UTF8_VALUE)
+    public UserExistsDto checkIfUserExists(@PathVariable("username") String username) {
+        LOGGER.debug("user with {} username requested", username);
+        return userService.existsWithUsername(username);
+    }
     
     @PostMapping(path = "/users", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public User addUser(@RequestBody User user) {
