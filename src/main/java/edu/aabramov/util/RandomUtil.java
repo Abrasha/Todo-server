@@ -10,7 +10,7 @@ import java.util.Random;
 @Component
 public class RandomUtil {
     
-    private Random random = new Random();
+    private final Random random = new Random();
     
     public int getRandomInt(int max) {
         return random.nextInt(max);

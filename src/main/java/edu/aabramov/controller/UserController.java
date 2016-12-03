@@ -3,7 +3,6 @@ package edu.aabramov.controller;
 import edu.aabramov.model.Todo;
 import edu.aabramov.model.User;
 import edu.aabramov.model.UserDetails;
-import edu.aabramov.repository.UserRepository;
 import edu.aabramov.service.TodoService;
 import edu.aabramov.service.UserService;
 import org.slf4j.Logger;
@@ -27,7 +26,7 @@ public class UserController {
     private final TodoService todoService;
     
     @Autowired
-    public UserController(UserRepository userRepository, UserService userService, TodoService todoService) {
+    public UserController(UserService userService, TodoService todoService) {
         LOGGER.debug("UserController init");
         this.userService = userService;
         this.todoService = todoService;

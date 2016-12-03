@@ -37,9 +37,7 @@ public class TodoGeneratorTest {
         List<Todo> randomTodos = todoGenerator.getRandomTodos(10);
         assertThat(randomTodos.size(), is(10));
         
-        randomTodos.forEach(e -> {
-            assertThat(e, is(notNullValue()));
-        });
+        randomTodos.forEach(e -> assertThat(e, is(notNullValue())));
         
     }
 }

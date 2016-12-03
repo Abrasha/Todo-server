@@ -9,7 +9,7 @@ public enum Status {
     
     DEFAULT, DONE, SUSPENDED, IN_PROGRESS;
     
-    private static Random random = new Random();
+    private static final Random random = new Random();
     
     public static Status getRandom() {
         return values()[random.nextInt(values().length)];
