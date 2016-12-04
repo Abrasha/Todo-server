@@ -1,5 +1,6 @@
 package edu.aabramov.util;
 
+import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
@@ -12,11 +13,11 @@ public class RandomUtil {
     
     private final Random random = new Random();
     
-    public int getRandomInt(int max) {
+    public int randomInt(int max) {
         return random.nextInt(max);
     }
     
-    public int getRandomInt(int min, int max) {
+    public int randomInt(int min, int max) {
         return min + random.nextInt(max - min);
     }
     

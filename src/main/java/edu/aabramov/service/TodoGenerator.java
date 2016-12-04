@@ -24,10 +24,12 @@ public class TodoGenerator {
     
     private final Faker faker;
     private final DateGenerator dateGenerator;
+    private final IdentifierManager identifierManager;
     
     @Autowired
-    public TodoGenerator(Faker faker, DateGenerator dateGenerator) {
+    public TodoGenerator(Faker faker, DateGenerator dateGenerator, IdentifierManager identifierManager) {
         LOGGER.debug("TodoGenerator init");
+        this.identifierManager = identifierManager;
         this.faker = faker;
         this.dateGenerator = dateGenerator;
     }
@@ -59,6 +61,7 @@ public class TodoGenerator {
         result.setTags(faker.lorem().words(3));
         result.setPriority(Priority.getRandom());
         result.setStatus(Status.getRandom());
+        result.setId(identifierManager.hexObjectId());
         
         Date date = dateGenerator.getRandomDate();
         result.setWhen(date);

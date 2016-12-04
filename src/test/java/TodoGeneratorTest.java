@@ -19,7 +19,7 @@ public class TodoGeneratorTest {
     private final Faker faker = new Faker();
     private final RandomUtil randomUtil = new RandomUtil();
     private final DateGenerator dateGenerator = new DateGenerator(randomUtil);
-    private final TodoGenerator todoGenerator = new TodoGenerator(faker, dateGenerator);
+    private final TodoGenerator todoGenerator = new TodoGenerator(faker, dateGenerator, randomUtil, identifierManager);
     
     @Test
     public void testGenerateRandomTodo() throws Exception {

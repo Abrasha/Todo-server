@@ -22,18 +22,18 @@ public class DateGenerator {
     public Date getRandomDate() {
         Calendar calendar = Calendar.getInstance();
         
-        int year = randomUtil.getRandomInt(1970, 2017); // 1970 -> 2017
-        int month = randomUtil.getRandomInt(12);
+        int year = randomUtil.randomInt(1970, 2017); // 1970 -> 2017
+        int month = randomUtil.randomInt(12);
         
         int day;
         if (month != Calendar.FEBRUARY) {
-            day = randomUtil.getRandomInt(30);
+            day = randomUtil.randomInt(30);
         } else {
-            day = randomUtil.getRandomInt(29);
+            day = randomUtil.randomInt(29);
         }
         
-        int hour = randomUtil.getRandomInt(24);
-        int minute = randomUtil.getRandomInt(60);
+        int hour = randomUtil.randomInt(24);
+        int minute = randomUtil.randomInt(60);
         calendar.set(year, month, day, hour, minute);
         
         return calendar.getTime();

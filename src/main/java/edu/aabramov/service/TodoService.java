@@ -20,10 +20,12 @@ public class TodoService {
     private final TodoGenerator todoGenerator;
     
     private final UserService userService;
+    private final IdentifierManager identifierManager;
     
     @Autowired
-    public TodoService(TodoGenerator todoGenerator, UserService userService) {
+    public TodoService(TodoGenerator todoGenerator, UserService userService, IdentifierManager identifierManager) {
         LOGGER.debug("TodoService init");
+        this.identifierManager = identifierManager;
         this.userService = userService;
         this.todoGenerator = todoGenerator;
     }
@@ -43,13 +45,13 @@ public class TodoService {
         LOGGER.debug("adding todo: {} to user id: {}", todo, id);
         User user = userService.findOne(id);
         LOGGER.debug("{} user loaded", user.getId());
+        todo.setId(identifierManager.hexObjectId());
         user.getTodos().add(todo);
         LOGGER.debug("updating user {} with {}", user.getId(), todo);
         user = userService.update(id, user);
         return user;
     }
     
-    // TODO: 12/1/16 $unwind
     public List<Todo> getUserTodos(String userId) {
         LOGGER.debug("requested todos for user id = {}", userId);
         User user = userService.findOne(userId);
@@ -57,4 +59,39 @@ public class TodoService {
         return user.getTodos();
     }
     
+    public Todo getTodoForUser(String userId, String todoId) {
+        User forUser = userService.findOne(userId);
+        return forUser.getTodos().stream()
+                .filter(e -> todoId.equals(e.getId()))
+                .findFirst()
+                .orElseThrow(RuntimeException::new);
+    }
+    
+    public Todo updateTodoForUser(String userId, String todoId, Todo todo) {
+        User userToUpdate = userService.findOne(userId);
+        
+        Todo todoToUpdate = userToUpdate.getTodos().stream()
+                .filter(e -> todoId.equals(e.getId()))
+                .findFirst()
+                .orElseThrow(RuntimeException::new);
+        
+        todoToUpdate.setId(todoId);
+        todoToUpdate.setStatus(todo.getStatus());
+        todoToUpdate.setBody(todo.getBody());
+        todoToUpdate.setTitle(todo.getTitle());
+        todoToUpdate.setPriority(todo.getPriority());
+        todoToUpdate.setTags(todo.getTags());
+        todoToUpdate.setWhen(todo.getWhen());
+        
+        userService.update(userId, userToUpdate);
+        
+        return todoToUpdate;
+    }
+    
+    public User deleteTodoForUser(String userId, String todoId) {
+        User user = userService.findOne(userId);
+        user.getTodos().removeIf(e -> todoId.equals(e.getId()));
+        User updatedUser = userService.update(userId, user);
+        return updatedUser;
+    }
 }

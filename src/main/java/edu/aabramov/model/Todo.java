@@ -1,6 +1,8 @@
 package edu.aabramov.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -14,7 +16,9 @@ public class Todo implements Serializable {
     
     private static final long serialVersionUID = 618982007097689618L;
     
-    // TODO: 11/25/16 add status field
+    @Id
+    private String id;
+    
     private String title;
     private String body;
     
@@ -25,6 +29,14 @@ public class Todo implements Serializable {
     private Status status;
     
     private List<String> tags;
+    
+    public String getId() {
+        return id;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
+    }
     
     public String getTitle() {
         return title;
@@ -79,19 +91,21 @@ public class Todo implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Todo todo = (Todo) o;
-        return Objects.equals(title, todo.title) &&
+        return Objects.equals(id, todo.id) &&
+                Objects.equals(title, todo.title) &&
                 Objects.equals(body, todo.body) &&
                 Objects.equals(when, todo.when) &&
-                priority == todo.priority;
+                priority == todo.priority &&
+                status == todo.status;
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(title, body, when, priority, tags);
+        return Objects.hash(id, title, body, when, priority, status);
     }
     
     @Override
     public String toString() {
-        return String.format("Todo{title='%s', body='%s', when=%s, priority=%s, status=%s, tags=%s}", title, body, when, priority, status, tags);
+        return String.format("Todo{id='%s', title='%s', body='%s', when=%s, priority=%s, status=%s, tags=%s}", id, title, body, when, priority, status, tags);
     }
 }
