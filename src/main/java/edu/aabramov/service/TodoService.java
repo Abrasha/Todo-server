@@ -88,10 +88,10 @@ public class TodoService {
         return todoToUpdate;
     }
     
-    public User deleteTodoForUser(String userId, String todoId) {
+    public List<Todo> deleteTodoForUser(String userId, String todoId) {
         User user = userService.findOne(userId);
         user.getTodos().removeIf(e -> todoId.equals(e.getId()));
         User updatedUser = userService.update(userId, user);
-        return updatedUser;
+        return updatedUser.getTodos();
     }
 }

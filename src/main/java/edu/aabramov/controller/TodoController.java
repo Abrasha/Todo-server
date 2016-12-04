@@ -52,7 +52,7 @@ public class TodoController {
     }
     
     @DeleteMapping(path = "/users/{userId}/todos/{todoId}", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public User deleteTodoForUser(@PathVariable("userId") String userId, @PathVariable("todoId") String todoId) {
+    public List<Todo> deleteTodoForUser(@PathVariable("userId") String userId, @PathVariable("todoId") String todoId) {
         LOGGER.debug("delete todo with id = for user with id = {}", todoId, userId);
         return todoService.deleteTodoForUser(userId, todoId);
     }
