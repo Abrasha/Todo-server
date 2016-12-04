@@ -1,5 +1,6 @@
 import com.github.javafaker.Faker;
 import edu.aabramov.model.Todo;
+import edu.aabramov.service.IdentifierManager;
 import edu.aabramov.service.TodoGenerator;
 import edu.aabramov.util.DateGenerator;
 import edu.aabramov.util.RandomUtil;
@@ -18,8 +19,9 @@ public class TodoGeneratorTest {
     
     private final Faker faker = new Faker();
     private final RandomUtil randomUtil = new RandomUtil();
+    private IdentifierManager identifierManager = new IdentifierManager();
     private final DateGenerator dateGenerator = new DateGenerator(randomUtil);
-    private final TodoGenerator todoGenerator = new TodoGenerator(faker, dateGenerator, randomUtil, identifierManager);
+    private final TodoGenerator todoGenerator = new TodoGenerator(faker, dateGenerator, identifierManager);
     
     @Test
     public void testGenerateRandomTodo() throws Exception {

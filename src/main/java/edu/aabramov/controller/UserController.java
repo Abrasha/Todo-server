@@ -1,6 +1,5 @@
 package edu.aabramov.controller;
 
-import edu.aabramov.model.Todo;
 import edu.aabramov.model.User;
 import edu.aabramov.model.UserDetails;
 import edu.aabramov.service.TodoService;
@@ -39,21 +38,21 @@ public class UserController {
     }
     
     @GetMapping(path = "/users/{userId}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public User getUser(@PathVariable("userId") String userId) {
-        LOGGER.debug("user {} requested", userId);
-        return userService.findOne(userId);
+    public List<UserDetails> getAllUsers(@PathVariable("userId") String userId) {
+        LOGGER.debug("all users requested");
+        return userService.getAllUsers();
+    }
+    
+    @GetMapping(path = "/users/details/{userId}", produces = APPLICATION_JSON_UTF8_VALUE)
+    public UserDetails getUserDetails(@PathVariable("userId") String userId) {
+        LOGGER.debug("user details {} requested", userId);
+        return userService.getUserDetails(userId);
     }
     
     @PostMapping(path = "/users", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
     public User addUser(@RequestBody User user) {
         LOGGER.debug("adding user = {}", user);
         return userService.insert(user);
-    }
-    
-    @PostMapping(path = "/users/{userId}/todos", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public User addUserTodo(@PathVariable("userId") String userId, @RequestBody Todo todo) {
-        LOGGER.debug("adding todo = {} to userId = {}", todo, userId);
-        return todoService.addUserTodo(userId, todo);
     }
     
 }

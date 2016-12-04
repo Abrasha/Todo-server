@@ -57,4 +57,10 @@ public class TodoController {
         return todoService.deleteTodoForUser(userId, todoId);
     }
     
+    @PostMapping(path = "/users/{userId}/todos", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
+    public User addUserTodo(@PathVariable("userId") String userId, @RequestBody Todo todo) {
+        LOGGER.debug("adding todo = {} to userId = {}", todo, userId);
+        return todoService.addUserTodo(userId, todo);
+    }
+    
 }

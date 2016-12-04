@@ -57,7 +57,6 @@ public class UserService {
     
     public User update(String id, User user) {
         LOGGER.debug("updating user: id = {} with user = {}", id, user);
-        
         user.setId(id);
         
         LOGGER.debug("saving user = {} to repository", user);
@@ -132,5 +131,9 @@ public class UserService {
                 .stream()
                 .map(UserDetails::new)
                 .collect(Collectors.toList());
+    }
+    
+    public UserDetails getUserDetails(String userId) {
+        return new UserDetails(userRepository.getUserDetails(userId));
     }
 }
