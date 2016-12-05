@@ -1,5 +1,7 @@
 package edu.aabramov.service;
 
+import edu.aabramov.model.Priority;
+import edu.aabramov.model.Status;
 import edu.aabramov.model.Todo;
 import edu.aabramov.model.User;
 import org.slf4j.Logger;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Andrii Abramov on 11/30/16.
@@ -67,6 +70,20 @@ public class TodoService {
                 .orElseThrow(RuntimeException::new);
     }
     
+    public List<Todo> getTodoForUserWithStatus(String userId, Status status) {
+        User forUser = userService.findOne(userId);
+        return forUser.getTodos().stream()
+                .filter(e -> e.getStatus() == status)
+                .collect(Collectors.toList());
+    }
+    
+    public List<Todo> getTodoForUserWithPriority(String userId, Priority priority) {
+        User forUser = userService.findOne(userId);
+        return forUser.getTodos().stream()
+                .filter(e -> e.getPriority() == priority)
+                .collect(Collectors.toList());
+    }
+    
     public Todo updateTodoForUser(String userId, String todoId, Todo todo) {
         User userToUpdate = userService.findOne(userId);
         
@@ -75,6 +92,14 @@ public class TodoService {
                 .findFirst()
                 .orElseThrow(RuntimeException::new);
         
+        mergeTodo(todoId, todo, todoToUpdate);
+        
+        userService.update(userId, userToUpdate);
+        
+        return todoToUpdate;
+    }
+    
+    private void mergeTodo(String todoId, Todo todo, Todo todoToUpdate) {
         todoToUpdate.setId(todoId);
         todoToUpdate.setStatus(todo.getStatus());
         todoToUpdate.setBody(todo.getBody());
@@ -82,10 +107,6 @@ public class TodoService {
         todoToUpdate.setPriority(todo.getPriority());
         todoToUpdate.setTags(todo.getTags());
         todoToUpdate.setWhen(todo.getWhen());
-        
-        userService.update(userId, userToUpdate);
-        
-        return todoToUpdate;
     }
     
     public List<Todo> deleteTodoForUser(String userId, String todoId) {
