@@ -1,6 +1,5 @@
 package edu.aabramov.util;
 
-import org.bson.types.ObjectId;
 import org.springframework.stereotype.Component;
 
 import java.util.Random;
