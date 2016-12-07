@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -37,8 +38,10 @@ public class TodoService {
         LOGGER.debug("inserting {} random todos for user id: {}", count, userId);
         List<Todo> todos = todoGenerator.getRandomTodos(count);
         User user = userService.findOne(userId);
+        
         LOGGER.debug("{} user loaded", user.getId());
         user.getTodos().addAll(todos);
+        
         LOGGER.debug("updating user {} with {}", user.getId(), user);
         User updatedUser = userService.update(userId, user);
         return updatedUser.getTodos();
@@ -47,9 +50,11 @@ public class TodoService {
     public User addUserTodo(String id, Todo todo) {
         LOGGER.debug("adding todo: {} to user id: {}", todo, id);
         User user = userService.findOne(id);
+        
         LOGGER.debug("{} user loaded", user.getId());
         todo.setId(identifierManager.hexObjectId());
         user.getTodos().add(todo);
+        
         LOGGER.debug("updating user {} with {}", user.getId(), todo);
         user = userService.update(id, user);
         return user;
@@ -58,6 +63,7 @@ public class TodoService {
     public List<Todo> getUserTodos(String userId) {
         LOGGER.debug("requested todos for user id = {}", userId);
         User user = userService.findOne(userId);
+        
         LOGGER.debug("got user {}", userId);
         return user.getTodos();
     }
@@ -71,17 +77,15 @@ public class TodoService {
     }
     
     public List<Todo> getTodoForUserWithStatus(String userId, Status status) {
-        User forUser = userService.findOne(userId);
-        return forUser.getTodos().stream()
-                .filter(e -> e.getStatus() == status)
-                .collect(Collectors.toList());
+        return getTodoMatching(userId, e -> e.getStatus() == status);
+    }
+    
+    public List<Todo> getTodoForUserWithTag(String userId, String tag) {
+        return getTodoMatching(userId, e -> e.getTags().contains(tag));
     }
     
     public List<Todo> getTodoForUserWithPriority(String userId, Priority priority) {
-        User forUser = userService.findOne(userId);
-        return forUser.getTodos().stream()
-                .filter(e -> e.getPriority() == priority)
-                .collect(Collectors.toList());
+        return getTodoMatching(userId, e -> e.getPriority() == priority);
     }
     
     public Todo updateTodoForUser(String userId, String todoId, Todo todo) {
@@ -99,6 +103,20 @@ public class TodoService {
         return todoToUpdate;
     }
     
+    public List<Todo> deleteTodoForUser(String userId, String todoId) {
+        User user = userService.findOne(userId);
+        user.getTodos().removeIf(e -> todoId.equals(e.getId()));
+        User updatedUser = userService.update(userId, user);
+        return updatedUser.getTodos();
+    }
+    
+    private List<Todo> getTodoMatching(String userId, Predicate<Todo> matcher) {
+        User forUser = userService.findOne(userId);
+        return forUser.getTodos().stream()
+                .filter(matcher)
+                .collect(Collectors.toList());
+    }
+    
     private void mergeTodo(String todoId, Todo todo, Todo todoToUpdate) {
         todoToUpdate.setId(todoId);
         todoToUpdate.setStatus(todo.getStatus());
@@ -108,12 +126,4 @@ public class TodoService {
         todoToUpdate.setTags(todo.getTags());
         todoToUpdate.setWhen(todo.getWhen());
     }
-    
-    public List<Todo> deleteTodoForUser(String userId, String todoId) {
-        User user = userService.findOne(userId);
-        user.getTodos().removeIf(e -> todoId.equals(e.getId()));
-        User updatedUser = userService.update(userId, user);
-        return updatedUser.getTodos();
-    }
-    
 }

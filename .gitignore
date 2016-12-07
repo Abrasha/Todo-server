@@ -16,5 +16,5 @@ dump.rdb
 run-*.sh
 build
 .gradle
-*.log
+application.log*
 **/credentials.properties

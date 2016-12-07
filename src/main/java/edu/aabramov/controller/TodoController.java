@@ -1,5 +1,7 @@
 package edu.aabramov.controller;
 
+import edu.aabramov.model.Priority;
+import edu.aabramov.model.Status;
 import edu.aabramov.model.Todo;
 import edu.aabramov.model.User;
 import edu.aabramov.service.TodoService;
@@ -37,6 +39,24 @@ public class TodoController {
     public List<Todo> getUserTodos(@PathVariable("userId") String userId) {
         LOGGER.debug("todos requested for user with id = {}", userId);
         return todoService.getUserTodos(userId);
+    }
+    
+    @GetMapping(path = "/users/{userId}/todos", produces = APPLICATION_JSON_UTF8_VALUE, params = "priority")
+    public List<Todo> getUserTodosWithPriority(@PathVariable("userId") String userId, @RequestParam("priority") Priority priority) {
+        LOGGER.debug("todos requested for user with id = {} with priority = {}", userId, priority);
+        return todoService.getTodoForUserWithPriority(userId, priority);
+    }
+    
+    @GetMapping(path = "/users/{userId}/todos", produces = APPLICATION_JSON_UTF8_VALUE, params = "tag")
+    public List<Todo> getUserTodosWithTag(@PathVariable("userId") String userId, @RequestParam("tag") String tag) {
+        LOGGER.debug("todos requested for user with id = {} with tag = {}", userId, tag);
+        return todoService.getTodoForUserWithTag(userId, tag);
+    }
+    
+    @GetMapping(path = "/users/{userId}/todos", produces = APPLICATION_JSON_UTF8_VALUE, params = "status")
+    public List<Todo> getUserTodosWithStatus(@PathVariable("userId") String userId, @RequestParam("status") Status status) {
+        LOGGER.debug("todos requested for user with id = {} with status = {}", userId, status);
+        return todoService.getTodoForUserWithStatus(userId, status);
     }
     
     @GetMapping(path = "/users/{userId}/todos/{todoId}", produces = APPLICATION_JSON_UTF8_VALUE)
