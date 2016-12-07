@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.List;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
@@ -32,6 +33,12 @@ public class UserController {
     public List<UserDetails> getAllUsers() {
         LOGGER.debug("all users requested");
         return userService.getAllUsers();
+    }
+    
+    @GetMapping(path = "/users/{userId}", produces = APPLICATION_JSON_UTF8_VALUE)
+    public User getUser(@PathParam("userId") String userId) {
+        LOGGER.debug("all users requested");
+        return userService.getUser(userId);
     }
     
     @GetMapping(path = "/users/details/{userId}", produces = APPLICATION_JSON_UTF8_VALUE)

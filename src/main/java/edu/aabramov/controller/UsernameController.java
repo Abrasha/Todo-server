@@ -38,7 +38,7 @@ public class UsernameController {
     @GetMapping(path = "/usernames/{username}", produces = APPLICATION_JSON_UTF8_VALUE)
     public User getUserByUsername(@PathVariable("username") String username) {
         LOGGER.debug("user with {} username requested", username);
-        return userService.findByUsername(username);
+        return userService.getByUsername(username);
     }
     
     @GetMapping(path = "/usernames/exists/{username}", produces = APPLICATION_JSON_UTF8_VALUE)

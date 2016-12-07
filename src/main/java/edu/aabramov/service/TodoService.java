@@ -37,7 +37,7 @@ public class TodoService {
     public List<Todo> insertRandomTodos(int count, String userId) {
         LOGGER.debug("inserting {} random todos for user id: {}", count, userId);
         List<Todo> todos = todoGenerator.getRandomTodos(count);
-        User user = userService.findOne(userId);
+        User user = userService.getUser(userId);
         
         LOGGER.debug("{} user loaded", user.getId());
         user.getTodos().addAll(todos);
@@ -49,7 +49,7 @@ public class TodoService {
     
     public User addUserTodo(String id, Todo todo) {
         LOGGER.debug("adding todo: {} to user id: {}", todo, id);
-        User user = userService.findOne(id);
+        User user = userService.getUser(id);
         
         LOGGER.debug("{} user loaded", user.getId());
         todo.setId(identifierManager.hexObjectId());
@@ -62,14 +62,14 @@ public class TodoService {
     
     public List<Todo> getUserTodos(String userId) {
         LOGGER.debug("requested todos for user id = {}", userId);
-        User user = userService.findOne(userId);
+        User user = userService.getUser(userId);
         
         LOGGER.debug("got user {}", userId);
         return user.getTodos();
     }
     
     public Todo getTodoForUser(String userId, String todoId) {
-        User forUser = userService.findOne(userId);
+        User forUser = userService.getUser(userId);
         return forUser.getTodos().stream()
                 .filter(e -> todoId.equals(e.getId()))
                 .findFirst()
@@ -89,7 +89,7 @@ public class TodoService {
     }
     
     public Todo updateTodoForUser(String userId, String todoId, Todo todo) {
-        User userToUpdate = userService.findOne(userId);
+        User userToUpdate = userService.getUser(userId);
         
         Todo todoToUpdate = userToUpdate.getTodos().stream()
                 .filter(e -> todoId.equals(e.getId()))
@@ -104,14 +104,14 @@ public class TodoService {
     }
     
     public List<Todo> deleteTodoForUser(String userId, String todoId) {
-        User user = userService.findOne(userId);
+        User user = userService.getUser(userId);
         user.getTodos().removeIf(e -> todoId.equals(e.getId()));
         User updatedUser = userService.update(userId, user);
         return updatedUser.getTodos();
     }
     
     private List<Todo> getTodoMatching(String userId, Predicate<Todo> matcher) {
-        User forUser = userService.findOne(userId);
+        User forUser = userService.getUser(userId);
         return forUser.getTodos().stream()
                 .filter(matcher)
                 .collect(Collectors.toList());

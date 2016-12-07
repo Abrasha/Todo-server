@@ -32,7 +32,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
     
-    public User findOne(String id) {
+    public User getUser(String id) {
         LOGGER.debug("User with id = {} requested", id);
         
         String hashKey = userCache.getIdKey(id);
@@ -70,7 +70,7 @@ public class UserService {
         return savedUser;
     }
     
-    public User findByUsername(String username) {
+    public User getByUsername(String username) {
         LOGGER.debug("user with username = {} requested", username);
         
         String hashKey = userCache.getUsernameKey(username);
@@ -114,7 +114,7 @@ public class UserService {
     public UserExistsDto existsWithUsername(String username) {
         LOGGER.debug("check if user with username = {} exists", username);
         
-        boolean exists = findByUsername(username) != null;
+        boolean exists = getByUsername(username) != null;
         LOGGER.debug("user with username {} exists: ", exists);
         return new UserExistsDto(username, exists);
     }
