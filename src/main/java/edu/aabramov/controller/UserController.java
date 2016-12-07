@@ -2,7 +2,6 @@ package edu.aabramov.controller;
 
 import edu.aabramov.model.User;
 import edu.aabramov.model.UserDetails;
-import edu.aabramov.service.TodoService;
 import edu.aabramov.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,23 +21,15 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     
     private final UserService userService;
-    private final TodoService todoService;
     
     @Autowired
-    public UserController(UserService userService, TodoService todoService) {
+    public UserController(UserService userService) {
         LOGGER.debug("UserController init");
         this.userService = userService;
-        this.todoService = todoService;
     }
     
     @GetMapping(path = "/users", produces = APPLICATION_JSON_UTF8_VALUE)
     public List<UserDetails> getAllUsers() {
-        LOGGER.debug("all users requested");
-        return userService.getAllUsers();
-    }
-    
-    @GetMapping(path = "/users/{userId}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public List<UserDetails> getAllUsers(@PathVariable("userId") String userId) {
         LOGGER.debug("all users requested");
         return userService.getAllUsers();
     }
