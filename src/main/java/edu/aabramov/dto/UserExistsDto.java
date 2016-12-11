@@ -1,4 +1,4 @@
-package edu.aabramov.model;
+package edu.aabramov.dto;
 
 import java.util.Objects;
 

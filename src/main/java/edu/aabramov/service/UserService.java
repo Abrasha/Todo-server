@@ -1,13 +1,14 @@
 package edu.aabramov.service;
 
+import edu.aabramov.dto.UserExistsDto;
 import edu.aabramov.model.User;
 import edu.aabramov.model.UserDetails;
-import edu.aabramov.model.UserExistsDto;
 import edu.aabramov.repository.UserRepository;
 import edu.aabramov.repository.cache.UserCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,9 +25,11 @@ public class UserService {
     
     private final UserRepository userRepository;
     private final UserCache userCache;
+    private final PasswordEncoder passwordEncoder;
     
     @Autowired
-    public UserService(UserRepository userRepository, UserCache userCache) {
+    public UserService(UserRepository userRepository, UserCache userCache, PasswordEncoder passwordEncoder) {
+        this.passwordEncoder = passwordEncoder;
         LOGGER.debug("UserService init");
         this.userCache = userCache;
         this.userRepository = userRepository;
@@ -103,7 +106,7 @@ public class UserService {
             LOGGER.debug("no todos for user, init with empty list", user);
             user.setTodos(new ArrayList<>(0));
         }
-        
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         User result = userRepository.insert(user);
         LOGGER.debug("inserting user = {} to cache with hashKey = {}", user);
         userCache.refreshUserInCache(result);

@@ -1,8 +1,10 @@
 package edu.aabramov.controller;
 
+import edu.aabramov.dto.UserDto;
 import edu.aabramov.model.User;
 import edu.aabramov.model.UserDetails;
 import edu.aabramov.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +23,11 @@ public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     
     private final UserService userService;
+    private final ModelMapper modelMapper;
     
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
         LOGGER.debug("UserController init");
         this.userService = userService;
     }
@@ -35,9 +39,10 @@ public class UserController {
     }
     
     @GetMapping(path = "/users/{userId}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public User getUser(@PathVariable("userId") String userId) {
+    public UserDto getUser(@PathVariable("userId") String userId) {
         LOGGER.debug("all users requested");
-        return userService.getUser(userId);
+        User foundUser = userService.getUser(userId);
+        return modelMapper.map(foundUser, UserDto.class);
     }
     
     @GetMapping(path = "/users/details/{userId}", produces = APPLICATION_JSON_UTF8_VALUE)
@@ -47,9 +52,10 @@ public class UserController {
     }
     
     @PostMapping(path = "/users", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public User addUser(@RequestBody User user) {
+    public UserDto addUser(@RequestBody User user) {
         LOGGER.debug("adding user = {}", user);
-        return userService.insert(user);
+        User insertedUser = userService.insert(user);
+        return modelMapper.map(insertedUser, UserDto.class);
     }
     
 }

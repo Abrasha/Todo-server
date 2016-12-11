@@ -1,8 +1,10 @@
 package edu.aabramov.controller;
 
+import edu.aabramov.dto.UserDto;
+import edu.aabramov.dto.UserExistsDto;
 import edu.aabramov.model.User;
-import edu.aabramov.model.UserExistsDto;
 import edu.aabramov.service.UserService;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,12 @@ public class UsernameController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UsernameController.class);
     
     private final UserService userService;
+    private final ModelMapper modelMapper;
     
     @Autowired
-    public UsernameController(UserService userService) {
+    public UsernameController(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
+        this.modelMapper = modelMapper;
     }
     
     @GetMapping(path = "/usernames", produces = APPLICATION_JSON_UTF8_VALUE)
@@ -36,9 +40,10 @@ public class UsernameController {
     }
     
     @GetMapping(path = "/usernames/{username}", produces = APPLICATION_JSON_UTF8_VALUE)
-    public User getUserByUsername(@PathVariable("username") String username) {
+    public UserDto getUserByUsername(@PathVariable("username") String username) {
         LOGGER.debug("user with {} username requested", username);
-        return userService.getByUsername(username);
+        User foundUser = userService.getByUsername(username);
+        return modelMapper.map(foundUser, UserDto.class);
     }
     
     @GetMapping(path = "/usernames/exists/{username}", produces = APPLICATION_JSON_UTF8_VALUE)
