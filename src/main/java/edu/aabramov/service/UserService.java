@@ -99,18 +99,19 @@ public class UserService {
         return foundUser;
     }
     
-    public User insert(User user) {
-        LOGGER.debug("adding user = {} to repository", user);
+    public User insert(String username, String password) {
+        LOGGER.debug("adding user = {} to repository", username);
         
-        if (user.getTodos() == null) {
-            LOGGER.debug("no todos for user, init with empty list", user);
-            user.setTodos(new ArrayList<>(0));
-        }
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
-        User result = userRepository.insert(user);
-        LOGGER.debug("inserting user = {} to cache with hashKey = {}", user);
+        User userToAdd = new User();
+        userToAdd.setUsername(username);
+        
+        
+        userToAdd.setTodos(new ArrayList<>(0));
+        userToAdd.setPassword(passwordEncoder.encode(password));
+        User result = userRepository.insert(userToAdd);
+        LOGGER.debug("inserting user = {} to cache with hashKey = {}", userToAdd);
         userCache.refreshUserInCache(result);
-        LOGGER.debug("inserting user = {} to repository", user);
+        LOGGER.debug("inserting user = {} to repository", userToAdd);
         return result;
     }
     

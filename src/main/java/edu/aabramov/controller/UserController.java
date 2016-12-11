@@ -51,11 +51,4 @@ public class UserController {
         return userService.getUserDetails(userId);
     }
     
-    @PostMapping(path = "/users", consumes = APPLICATION_JSON_UTF8_VALUE, produces = APPLICATION_JSON_UTF8_VALUE)
-    public UserDto addUser(@RequestBody User user) {
-        LOGGER.debug("adding user = {}", user);
-        User insertedUser = userService.insert(user);
-        return modelMapper.map(insertedUser, UserDto.class);
-    }
-    
 }
