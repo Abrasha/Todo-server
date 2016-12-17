@@ -29,12 +29,6 @@ public class TodoController {
         this.todoService = todoService;
     }
     
-    @PostMapping(value = "/users/{userId}/todos/generate", produces = APPLICATION_JSON_UTF8_VALUE)
-    public List<Todo> insertRandomTodos(@RequestParam("count") int count, @PathVariable("userId") String userId) {
-        LOGGER.debug("inserting {} todos for user id: {}", count, userId);
-        return todoService.insertRandomTodos(count, userId);
-    }
-    
     @GetMapping(path = "/users/{userId}/todos", produces = APPLICATION_JSON_UTF8_VALUE)
     public List<Todo> getUserTodos(@PathVariable("userId") String userId) {
         LOGGER.debug("todos requested for user with id = {}", userId);
@@ -81,6 +75,12 @@ public class TodoController {
     public User addUserTodo(@PathVariable("userId") String userId, @RequestBody Todo todo) {
         LOGGER.debug("adding todo = {} to userId = {}", todo, userId);
         return todoService.addUserTodo(userId, todo);
+    }
+    
+    @PostMapping(value = "/users/{userId}/todos/generate", produces = APPLICATION_JSON_UTF8_VALUE)
+    public List<Todo> insertRandomTodos(@RequestParam("count") int count, @PathVariable("userId") String userId) {
+        LOGGER.debug("inserting {} todos for user id: {}", count, userId);
+        return todoService.insertRandomTodos(count, userId);
     }
     
 }

@@ -29,7 +29,7 @@ public class UserCache extends EntityCache<User> {
     }
     
     public void putWithId(String userId, User user) {
-        put(getUsernameKey(userId), user);
+        put(getIdKey(userId), user);
     }
     
     public void refreshUserInCache(User user) {

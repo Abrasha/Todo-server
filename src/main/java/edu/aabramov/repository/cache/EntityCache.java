@@ -17,7 +17,7 @@ public abstract class EntityCache<T> {
     }
     
     public void put(String hashKey, T value) {
-        hashOperations.put(getHashKey(), hashKey, value);
+        hashOperations.put(hashKey, getHashKey(), value);
     }
     
     public T get(String hashKey) {

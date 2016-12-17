@@ -43,8 +43,8 @@ public class SecurityController {
     }
     
     @PostMapping(path = "/users", produces = APPLICATION_JSON_UTF8_VALUE)
-    public UserDto addUser(@RequestHeader("username") String username, @RequestHeader("password") String password) {
-        LOGGER.debug("adding user = {}", username);
+    public UserDto registerUser(@RequestHeader("username") String username, @RequestHeader("password") String password) {
+        LOGGER.debug("registering user = {}", username);
         User insertedUser = userService.insert(username, password);
         return modelMapper.map(insertedUser, UserDto.class);
     }

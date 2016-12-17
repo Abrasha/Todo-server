@@ -109,7 +109,7 @@ public class UserService {
         userToAdd.setTodos(new ArrayList<>(0));
         userToAdd.setPassword(passwordEncoder.encode(password));
         User result = userRepository.insert(userToAdd);
-        LOGGER.debug("inserting user = {} to cache with hashKey = {}", userToAdd);
+        LOGGER.debug("inserting user = {} to cache", userToAdd);
         userCache.refreshUserInCache(result);
         LOGGER.debug("inserting user = {} to repository", userToAdd);
         return result;
