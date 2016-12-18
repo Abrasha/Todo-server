@@ -51,4 +51,12 @@ public class UserController {
         return userService.getUserDetails(userId);
     }
     
+    
+    @PostMapping(value = "/users/generate", produces = APPLICATION_JSON_UTF8_VALUE)
+    public List<UserDetails> insertRandomUsers(@RequestParam("count") int count) {
+        LOGGER.debug("inserting random users. count = {}", count);
+        userService.insertRandomUsers(count);
+        return getAllUsers();
+    }
+    
 }

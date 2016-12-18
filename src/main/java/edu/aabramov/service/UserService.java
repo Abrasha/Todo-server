@@ -13,7 +13,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 /**
  * @author Andrii Abramov on 11/25/16.
@@ -26,10 +27,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserCache userCache;
     private final PasswordEncoder passwordEncoder;
+    private final UserGenerator userGenerator;
     
     @Autowired
-    public UserService(UserRepository userRepository, UserCache userCache, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, UserCache userCache, PasswordEncoder passwordEncoder, UserGenerator userGenerator) {
         this.passwordEncoder = passwordEncoder;
+        this.userGenerator = userGenerator;
         LOGGER.debug("UserService init");
         this.userCache = userCache;
         this.userRepository = userRepository;
@@ -105,7 +108,6 @@ public class UserService {
         User userToAdd = new User();
         userToAdd.setUsername(username);
         
-        
         userToAdd.setTodos(new ArrayList<>(0));
         userToAdd.setPassword(passwordEncoder.encode(password));
         User result = userRepository.insert(userToAdd);
@@ -127,17 +129,33 @@ public class UserService {
         return userRepository.findAll()
                 .stream()
                 .map(User::getUsername)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
     
     public List<UserDetails> getAllUsers() {
         return userRepository.findAll()
                 .stream()
                 .map(UserDetails::new)
-                .collect(Collectors.toList());
+                .collect(toList());
     }
     
     public UserDetails getUserDetails(String userId) {
         return new UserDetails(userRepository.getUserDetails(userId));
+    }
+    
+    public List<User> insertMany(List<User> users) {
+        users.forEach(user -> {
+            if (user.getTodos() == null) {
+                user.setTodos(new ArrayList<>(0));
+            }
+        });
+        return userRepository.insert(users);
+    }
+    
+    public List<UserDetails> insertRandomUsers(int count) {
+        return insertMany(userGenerator.getRandomUsers(count))
+                .stream()
+                .map(UserDetails::new)
+                .collect(toList());
     }
 }
