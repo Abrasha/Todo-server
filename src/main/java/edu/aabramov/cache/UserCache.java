@@ -1,4 +1,4 @@
-package edu.aabramov.repository.cache;
+package edu.aabramov.cache;
 
 import edu.aabramov.model.User;
 import org.springframework.stereotype.Component;

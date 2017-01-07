@@ -62,10 +62,11 @@ public class TodoService {
     
     public List<Todo> getUserTodos(String userId) {
         LOGGER.debug("requested todos for user id = {}", userId);
-        User user = userService.getUser(userId);
-        
-        LOGGER.debug("got user {}", userId);
-        return user.getTodos();
+//        User user = userService.getUser(userId);
+
+//        LOGGER.debug("got user {}", userId);
+//        return user.getTodos();
+        return userService.getUserTodos(userId);
     }
     
     public Todo getTodoForUser(String userId, String todoId) {

@@ -1,7 +1,7 @@
 package edu.aabramov.service;
 
+import edu.aabramov.exception.http.NotAuthorizedException;
 import edu.aabramov.model.User;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,16 +21,15 @@ public class AuthorizationService {
         this.passwordEncoder = passwordEncoder;
     }
     
-    // todo
     public User authorize(String username, String password) {
         
         User user = userService.getByUsername(username);
         
-        if (passwordEncoder.matches(password, user.getPassword())) {
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
             return user;
         }
         
-        throw new RuntimeException("Not authorized: " + username);
+        throw new NotAuthorizedException("Wrong login or password.");
     }
     
 }

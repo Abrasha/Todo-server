@@ -1,5 +1,6 @@
 package edu.aabramov.controller;
 
+import edu.aabramov.controller.annotation.JsonRestController;
 import edu.aabramov.dto.UserDto;
 import edu.aabramov.model.User;
 import edu.aabramov.model.UserDetails;
@@ -8,7 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -17,7 +20,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 /**
  * @author Andrii Abramov on 11/24/16.
  */
-@RestController
+@JsonRestController
 public class UserController {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
@@ -32,31 +35,23 @@ public class UserController {
         this.userService = userService;
     }
     
-    @GetMapping(path = "/users", produces = APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/users")
     public List<UserDetails> getAllUsers() {
         LOGGER.debug("all users requested");
         return userService.getAllUsers();
     }
     
-    @GetMapping(path = "/users/{userId}", produces = APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/users/{userId}")
     public UserDto getUser(@PathVariable("userId") String userId) {
         LOGGER.debug("all users requested");
         User foundUser = userService.getUser(userId);
         return modelMapper.map(foundUser, UserDto.class);
     }
     
-    @GetMapping(path = "/users/details/{userId}", produces = APPLICATION_JSON_UTF8_VALUE)
+    @GetMapping(path = "/users/{userId}/details"s)
     public UserDetails getUserDetails(@PathVariable("userId") String userId) {
         LOGGER.debug("user details {} requested", userId);
         return userService.getUserDetails(userId);
-    }
-    
-    
-    @PostMapping(value = "/users/generate", produces = APPLICATION_JSON_UTF8_VALUE)
-    public List<UserDetails> insertRandomUsers(@RequestParam("count") int count) {
-        LOGGER.debug("inserting random users. count = {}", count);
-        userService.insertRandomUsers(count);
-        return getAllUsers();
     }
     
 }

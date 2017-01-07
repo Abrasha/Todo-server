@@ -1,25 +1,17 @@
 package edu.aabramov.dto;
 
 import edu.aabramov.model.Todo;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-@Document(collection = "users")
 public class UserDto implements Serializable {
     
     private static final long serialVersionUID = 7526488181196658002L;
     
-    @Id
     private String id;
-    
-    @Indexed
     private String username;
-    
     private List<Todo> todos;
     
     public String getId() {

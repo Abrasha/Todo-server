@@ -1,10 +1,11 @@
 package edu.aabramov.service;
 
+import edu.aabramov.cache.UserCache;
 import edu.aabramov.dto.UserExistsDto;
+import edu.aabramov.model.Todo;
 import edu.aabramov.model.User;
 import edu.aabramov.model.UserDetails;
-import edu.aabramov.repository.UserRepository;
-import edu.aabramov.repository.cache.UserCache;
+import edu.aabramov.repository.user.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -143,7 +144,7 @@ public class UserService {
         return new UserDetails(userRepository.getUserDetails(userId));
     }
     
-    public List<User> insertMany(List<User> users) {
+    public List<User> insert(List<User> users) {
         users.forEach(user -> {
             if (user.getTodos() == null) {
                 user.setTodos(new ArrayList<>(0));
@@ -153,9 +154,14 @@ public class UserService {
     }
     
     public List<UserDetails> insertRandomUsers(int count) {
-        return insertMany(userGenerator.getRandomUsers(count))
+        return insert(userGenerator.getRandomUsers(count))
                 .stream()
                 .map(UserDetails::new)
                 .collect(toList());
     }
+    
+    public List<Todo> getUserTodos(String userId) {
+        return userRepository.getUserTodos(userId);
+    }
+    
 }

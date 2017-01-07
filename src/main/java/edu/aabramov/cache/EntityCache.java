@@ -1,4 +1,4 @@
-package edu.aabramov.repository.cache;
+package edu.aabramov.cache;
 
 import org.springframework.data.redis.core.HashOperations;
 

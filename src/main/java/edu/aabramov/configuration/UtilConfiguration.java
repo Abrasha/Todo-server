@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Configuration;
  * @author Andrii Abramov on 12/11/16.
  */
 @Configuration
-public class UtilConiguration {
+public class UtilConfiguration {
     
     @Bean
-    public ModelMapper modelMapper(){
+    public ModelMapper modelMapper() {
         return new ModelMapper();
     }
     
