@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
-
 /**
  * @author Andrii Abramov on 11/30/16.
  */

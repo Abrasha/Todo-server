@@ -21,30 +21,14 @@ public class TodoService {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(TodoService.class);
     
-    private final TodoGenerator todoGenerator;
-    
     private final UserService userService;
     private final IdentifierManager identifierManager;
     
     @Autowired
-    public TodoService(TodoGenerator todoGenerator, UserService userService, IdentifierManager identifierManager) {
+    public TodoService(UserService userService, IdentifierManager identifierManager) {
         LOGGER.debug("TodoService init");
         this.identifierManager = identifierManager;
         this.userService = userService;
-        this.todoGenerator = todoGenerator;
-    }
-    
-    public List<Todo> insertRandomTodos(int count, String userId) {
-        LOGGER.debug("inserting {} random todos for user id: {}", count, userId);
-        List<Todo> todos = todoGenerator.getRandomTodos(count);
-        User user = userService.getUser(userId);
-        
-        LOGGER.debug("{} user loaded", user.getId());
-        user.getTodos().addAll(todos);
-        
-        LOGGER.debug("updating user {} with {}", user.getId(), user);
-        User updatedUser = userService.update(userId, user);
-        return updatedUser.getTodos();
     }
     
     public User addUserTodo(String id, Todo todo) {
@@ -62,10 +46,7 @@ public class TodoService {
     
     public List<Todo> getUserTodos(String userId) {
         LOGGER.debug("requested todos for user id = {}", userId);
-//        User user = userService.getUser(userId);
-
-//        LOGGER.debug("got user {}", userId);
-//        return user.getTodos();
+        
         return userService.getUserTodos(userId);
     }
     

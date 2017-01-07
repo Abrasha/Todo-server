@@ -28,12 +28,10 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserCache userCache;
     private final PasswordEncoder passwordEncoder;
-    private final UserGenerator userGenerator;
     
     @Autowired
-    public UserService(UserRepository userRepository, UserCache userCache, PasswordEncoder passwordEncoder, UserGenerator userGenerator) {
+    public UserService(UserRepository userRepository, UserCache userCache, PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
-        this.userGenerator = userGenerator;
         LOGGER.debug("UserService init");
         this.userCache = userCache;
         this.userRepository = userRepository;
@@ -142,22 +140,6 @@ public class UserService {
     
     public UserDetails getUserDetails(String userId) {
         return new UserDetails(userRepository.getUserDetails(userId));
-    }
-    
-    public List<User> insert(List<User> users) {
-        users.forEach(user -> {
-            if (user.getTodos() == null) {
-                user.setTodos(new ArrayList<>(0));
-            }
-        });
-        return userRepository.insert(users);
-    }
-    
-    public List<UserDetails> insertRandomUsers(int count) {
-        return insert(userGenerator.getRandomUsers(count))
-                .stream()
-                .map(UserDetails::new)
-                .collect(toList());
     }
     
     public List<Todo> getUserTodos(String userId) {

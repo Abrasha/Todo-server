@@ -11,11 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
-import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8_VALUE;
 
 /**
  * @author Andrii Abramov on 11/24/16.
@@ -48,7 +45,7 @@ public class UserController {
         return modelMapper.map(foundUser, UserDto.class);
     }
     
-    @GetMapping(path = "/users/{userId}/details"s)
+    @GetMapping(path = "/users/{userId}/details")
     public UserDetails getUserDetails(@PathVariable("userId") String userId) {
         LOGGER.debug("user details {} requested", userId);
         return userService.getUserDetails(userId);
