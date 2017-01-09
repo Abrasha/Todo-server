@@ -1,5 +1,5 @@
-import edu.aabramov.util.DateGenerator;
-import edu.aabramov.util.RandomUtil;
+import edu.aabramov.todo.core.util.DateGenerator;
+import edu.aabramov.todo.core.util.RandomUtil;
 import org.junit.Test;
 
 import java.util.Calendar;

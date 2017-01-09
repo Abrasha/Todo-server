@@ -1,9 +1,9 @@
 import com.github.javafaker.Faker;
-import edu.aabramov.model.Todo;
-import edu.aabramov.service.IdentifierManager;
-import edu.aabramov.service.debug.TodoGenerator;
-import edu.aabramov.util.DateGenerator;
-import edu.aabramov.util.RandomUtil;
+import edu.aabramov.todo.core.model.Todo;
+import edu.aabramov.todo.service.IdentifierManager;
+import edu.aabramov.todo.service.debug.TodoGenerator;
+import edu.aabramov.todo.core.util.DateGenerator;
+import edu.aabramov.todo.core.util.RandomUtil;
 import org.junit.Test;
 
 import java.util.List;
