@@ -21,7 +21,7 @@ public abstract class EntityCache<T> {
     }
     
     public T get(String hashKey) {
-        return hashOperations.get(getHashKey(), hashKey);
+        return hashOperations.get(hashKey, getHashKey());
     }
     
     public abstract String getHashKey();

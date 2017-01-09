@@ -1,10 +1,10 @@
 package edu.aabramov.todo.web.controller.debug;
 
+import edu.aabramov.todo.core.model.User;
 import edu.aabramov.todo.core.util.AppProfiles;
+import edu.aabramov.todo.service.UserService;
 import edu.aabramov.todo.web.controller.annotation.JsonRestController;
 import edu.aabramov.todo.web.dto.UserDto;
-import edu.aabramov.todo.core.model.User;
-import edu.aabramov.todo.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

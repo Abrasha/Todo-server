@@ -1,8 +1,8 @@
 package edu.aabramov.todo.web.controller;
 
+import edu.aabramov.todo.service.UserService;
 import edu.aabramov.todo.web.controller.annotation.JsonRestController;
 import edu.aabramov.todo.web.dto.UserExistsDto;
-import edu.aabramov.todo.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

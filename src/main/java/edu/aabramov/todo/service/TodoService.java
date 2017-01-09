@@ -71,8 +71,9 @@ public class TodoService {
     }
     
     public Todo updateTodoForUser(String userId, String todoId, Todo todo) {
-        User userToUpdate = userService.getUser(userId);
         
+        User userToUpdate = userService.getUser(userId);
+        // todo search with edu.aabramov.todo.core.util.CollectionFinder
         Todo todoToUpdate = userToUpdate.getTodos().stream()
                 .filter(e -> todoId.equals(e.getId()))
                 .findFirst()

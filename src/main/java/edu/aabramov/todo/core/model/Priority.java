@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public enum Priority {
     
-    DEFAULT, HIGH, MEDIUM, LOW;
+    DEFAULT, LOW, MEDIUM, HIGH;
     
     private static final Random random = new Random();
     

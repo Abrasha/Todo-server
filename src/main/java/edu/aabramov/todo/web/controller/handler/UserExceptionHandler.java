@@ -1,4 +1,4 @@
-package edu.aabramov.todo.web.controller;
+package edu.aabramov.todo.web.controller.handler;
 
 import edu.aabramov.todo.web.dto.ExceptionDto;
 import edu.aabramov.todo.web.exception.http.WebException;
@@ -15,9 +15,14 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class UserExceptionHandler {
     
     @ExceptionHandler(WebException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<ExceptionDto> handleException(WebException e) {
+    public ResponseEntity<ExceptionDto> handleWebException(WebException e) {
         return new ResponseEntity<>(new ExceptionDto(e), e.getHttpStatus());
+    }
+    
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ExceptionDto handleOtherExceptions(Exception e) {
+        return new ExceptionDto(e);
     }
     
 }

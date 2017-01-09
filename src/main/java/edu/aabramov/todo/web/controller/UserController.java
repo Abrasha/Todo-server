@@ -1,10 +1,10 @@
 package edu.aabramov.todo.web.controller;
 
-import edu.aabramov.todo.web.controller.annotation.JsonRestController;
-import edu.aabramov.todo.web.dto.UserDto;
 import edu.aabramov.todo.core.model.User;
-import edu.aabramov.todo.core.model.UserDetails;
 import edu.aabramov.todo.service.UserService;
+import edu.aabramov.todo.web.controller.annotation.JsonRestController;
+import edu.aabramov.todo.web.dto.UserDetailsDto;
+import edu.aabramov.todo.web.dto.UserDto;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Andrii Abramov on 11/24/16.
@@ -33,9 +34,12 @@ public class UserController {
     }
     
     @GetMapping(path = "/users")
-    public List<UserDetails> getAllUsers() {
+    public List<UserDto> getAllUsers() {
         LOGGER.debug("all users requested");
-        return userService.getAllUsers();
+        return userService.getAllUsers()
+                .stream()
+                .map(user -> modelMapper.map(user, UserDto.class))
+                .collect(Collectors.toList());
     }
     
     @GetMapping(path = "/users/{userId}")
@@ -46,9 +50,9 @@ public class UserController {
     }
     
     @GetMapping(path = "/users/{userId}/details")
-    public UserDetails getUserDetails(@PathVariable("userId") String userId) {
+    public UserDetailsDto getUserDetails(@PathVariable("userId") String userId) {
         LOGGER.debug("user details {} requested", userId);
-        return userService.getUserDetails(userId);
+        return modelMapper.map(userService.getUserDetails(userId), UserDetailsDto.class);
     }
     
 }

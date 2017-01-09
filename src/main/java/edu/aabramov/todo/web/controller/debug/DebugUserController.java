@@ -1,10 +1,11 @@
 package edu.aabramov.todo.web.controller.debug;
 
+import edu.aabramov.todo.core.model.User;
 import edu.aabramov.todo.core.util.AppProfiles;
 import edu.aabramov.todo.web.controller.annotation.JsonRestController;
-import edu.aabramov.todo.core.model.UserDetails;
 import edu.aabramov.todo.service.UserService;
 import edu.aabramov.todo.service.debug.DebugUserService;
+import edu.aabramov.todo.web.dto.UserDetailsDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class DebugUserController {
     }
     
     @PostMapping(value = "/users/generate")
-    public List<UserDetails> insertRandomUsers(@RequestParam("count") int count) {
+    public List<User> insertRandomUsers(@RequestParam("count") int count) {
         LOGGER.debug("inserting random users. count = {}", count);
         debugUserService.insertRandomUsers(count);
         return userService.getAllUsers();

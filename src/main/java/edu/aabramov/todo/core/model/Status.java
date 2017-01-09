@@ -7,7 +7,7 @@ import java.util.Random;
  */
 public enum Status {
     
-    DEFAULT, DONE, SUSPENDED, IN_PROGRESS;
+    DEFAULT, DONE;
     
     private static final Random random = new Random();
     

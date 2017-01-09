@@ -13,13 +13,13 @@ import org.springframework.data.redis.repository.configuration.EnableRedisReposi
 @SpringBootApplication
 @EnableMongoRepositories
 @EnableRedisRepositories
-public class Application {
+public class TodoApplication {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(TodoApplication.class);
     
     public static void main(String[] args) {
         LOGGER.debug("Application init");
-        SpringApplication.run(Application.class, args);
+        SpringApplication.run(TodoApplication.class, args);
     }
     
 }

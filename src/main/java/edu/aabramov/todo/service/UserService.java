@@ -1,11 +1,10 @@
 package edu.aabramov.todo.service;
 
-import edu.aabramov.todo.service.cache.UserCache;
-import edu.aabramov.todo.web.dto.UserExistsDto;
 import edu.aabramov.todo.core.model.Todo;
 import edu.aabramov.todo.core.model.User;
-import edu.aabramov.todo.core.model.UserDetails;
 import edu.aabramov.todo.persistence.repository.user.UserRepository;
+import edu.aabramov.todo.service.cache.UserCache;
+import edu.aabramov.todo.web.dto.UserExistsDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,27 +36,11 @@ public class UserService {
         this.userRepository = userRepository;
     }
     
-    public User getUser(String id) {
+    public User getUser(final String id) {
         LOGGER.debug("User with id = {} requested", id);
         
-        String hashKey = userCache.getIdKey(id);
-        
-        LOGGER.debug("check if user with id = {} exists in cache", id);
-        if (userCache.hasKey(hashKey)) {
-            LOGGER.debug("user with id = {} is in cache", id);
-            return userCache.get(hashKey);
-        } else {
-            LOGGER.debug("user with id = {} is not in cache", id);
-            LOGGER.debug("getting user with id = {} from repository", id);
-            User result = userRepository.findOne(id);
-            
-            LOGGER.debug("for user = {} from repository", result);
-            LOGGER.debug("putting user = {} to cache");
-            userCache.refreshUserInCache(result);
-            
-            LOGGER.debug("put user = {} to cache - done");
-            return result;
-        }
+        return userCache.getById(id)
+                .orElseGet(() -> userRepository.findOne(id));
     }
     
     public User update(String id, User user) {
@@ -75,30 +58,11 @@ public class UserService {
         return savedUser;
     }
     
-    public User getByUsername(String username) {
+    public User getByUsername(final String username) {
         LOGGER.debug("user with username = {} requested", username);
         
-        String hashKey = userCache.getUsernameKey(username);
-        
-        LOGGER.debug("created hash key = {} for user with username = {}", hashKey, username);
-        LOGGER.debug("check if user with username = {} exists in cache", username);
-        
-        User foundUser;
-        if (userCache.hasKey(hashKey)) {
-            LOGGER.debug("user with username = {} is in cache", username);
-            foundUser = userCache.get(hashKey);
-        } else {
-            LOGGER.debug("user with username = {} is not in cache", username);
-            LOGGER.debug("getting user with username = {} from repository", username);
-            foundUser = userRepository.findOneByUsername(username);
-            
-            LOGGER.debug("got user with username = {} from repository, user = {}", username, foundUser);
-            LOGGER.debug("putting user = {} to cache");
-            userCache.refreshUserInCache(foundUser);
-            
-            LOGGER.debug("put user = {} to cache - done");
-        }
-        return foundUser;
+        return userCache.getByUsername(username)
+                .orElseGet(() -> userRepository.findOneByUsername(username));
     }
     
     public User insert(String username, String password) {
@@ -131,15 +95,12 @@ public class UserService {
                 .collect(toList());
     }
     
-    public List<UserDetails> getAllUsers() {
-        return userRepository.findAll()
-                .stream()
-                .map(UserDetails::new)
-                .collect(toList());
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
     }
     
-    public UserDetails getUserDetails(String userId) {
-        return new UserDetails(userRepository.getUserDetails(userId));
+    public User getUserDetails(String userId) {
+        return userRepository.getUserDetails(userId);
     }
     
     public List<Todo> getUserTodos(String userId) {

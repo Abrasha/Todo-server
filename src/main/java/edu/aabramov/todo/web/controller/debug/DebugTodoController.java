@@ -1,9 +1,9 @@
 package edu.aabramov.todo.web.controller.debug;
 
-import edu.aabramov.todo.core.util.AppProfiles;
-import edu.aabramov.todo.web.controller.annotation.JsonRestController;
 import edu.aabramov.todo.core.model.Todo;
+import edu.aabramov.todo.core.util.AppProfiles;
 import edu.aabramov.todo.service.debug.DebugTodoService;
+import edu.aabramov.todo.web.controller.annotation.JsonRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

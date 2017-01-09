@@ -1,11 +1,11 @@
 package edu.aabramov.todo.web.controller;
 
-import edu.aabramov.todo.web.controller.annotation.JsonRestController;
 import edu.aabramov.todo.core.model.Priority;
 import edu.aabramov.todo.core.model.Status;
 import edu.aabramov.todo.core.model.Todo;
 import edu.aabramov.todo.core.model.User;
 import edu.aabramov.todo.service.TodoService;
+import edu.aabramov.todo.web.controller.annotation.JsonRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

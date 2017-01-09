@@ -2,8 +2,8 @@ package edu.aabramov.todo.service.debug;
 
 import edu.aabramov.todo.core.util.AppProfiles;
 import edu.aabramov.todo.core.model.User;
-import edu.aabramov.todo.core.model.UserDetails;
 import edu.aabramov.todo.service.UserService;
+import edu.aabramov.todo.web.dto.UserDetailsDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,10 +42,10 @@ public class DebugUserService {
         
     }
     
-    public List<UserDetails> insertRandomUsers(int count) {
+    public List<UserDetailsDto> insertRandomUsers(int count) {
         return insert(userGenerator.getRandomUsers(count))
                 .stream()
-                .map(UserDetails::new)
+                .map(UserDetailsDto::new)
                 .collect(toList());
     }
     

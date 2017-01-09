@@ -1,7 +1,12 @@
 package edu.aabramov.todo.service.cache;
 
 import edu.aabramov.todo.core.model.User;
+import edu.aabramov.todo.service.cache.keys.provider.IdKeyProvider;
+import edu.aabramov.todo.service.cache.keys.provider.UsernameKeyProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * @author Andrii Abramov on 12/2/16.
@@ -9,35 +14,52 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserCache extends EntityCache<User> {
     
-    private static final String USER_REDIS_KEY = "User";
+    private static final String USER_REDIS_KEY = User.class.getSimpleName();
+    
+    private final UsernameKeyProvider usernameKeyProvider;
+    
+    private final IdKeyProvider idKeyProvider;
+    
+    @Autowired
+    public UserCache(UsernameKeyProvider usernameKeyProvider, IdKeyProvider idKeyProvider) {
+        this.usernameKeyProvider = usernameKeyProvider;
+        this.idKeyProvider = idKeyProvider;
+    }
+    
     
     @Override
     public String getHashKey() {
         return USER_REDIS_KEY;
     }
     
-    public String getIdKey(String userId) {
-        return "user:id:" + userId;
+    public Optional<User> getByUsername(String username) {
+        return Optional.ofNullable(get(usernameKeyProvider.getKey(username)));
     }
     
-    public String getUsernameKey(String username) {
-        return "user:username:" + username;
+    public Optional<User> getById(String id) {
+        return Optional.ofNullable(get(idKeyProvider.getKey(id)));
     }
     
-    public void putWithUsername(String username, User user) {
-        put(getUsernameKey(username), user);
+    /**
+     * @param user should not be {@literal null}
+     */
+    private void putWithUsername(User user) {
+        put(usernameKeyProvider.getKey(user.getUsername()), user);
     }
     
-    public void putWithId(String userId, User user) {
-        put(getIdKey(userId), user);
+    /**
+     * @param user should not be {@literal null}
+     */
+    private void putWithId(User user) {
+        put(idKeyProvider.getKey(user.getId()), user);
     }
     
     public void refreshUserInCache(User user) {
         if (user == null) {
             return;
         }
-        putWithUsername(user.getUsername(), user);
-        putWithId(user.getId(), user);
+        putWithUsername(user);
+        putWithId(user);
     }
     
     

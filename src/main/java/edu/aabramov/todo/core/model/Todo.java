@@ -2,6 +2,7 @@ package edu.aabramov.todo.core.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,6 +26,8 @@ public class Todo implements Serializable {
     private Date when;
     
     private Priority priority;
+    
+    @Indexed
     private Status status;
     
     private List<String> tags;

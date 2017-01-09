@@ -1,21 +1,23 @@
-package edu.aabramov.todo.core.model;
+package edu.aabramov.todo.web.dto;
+
+import edu.aabramov.todo.core.model.User;
 
 import java.util.Objects;
 
 /**
  * @author Andrii Abramov on 11/25/16.
  */
-public class UserDetails {
+public class UserDetailsDto {
     
     private String id;
     private String username;
     
-    public UserDetails(String id, String username) {
+    public UserDetailsDto(String id, String username) {
         this.id = id;
         this.username = username;
     }
     
-    public UserDetails(User user) {
+    public UserDetailsDto(User user) {
         this(user.getId(), user.getUsername());
     }
     
@@ -39,7 +41,7 @@ public class UserDetails {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserDetails that = (UserDetails) o;
+        UserDetailsDto that = (UserDetailsDto) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(username, that.username);
     }
@@ -51,6 +53,6 @@ public class UserDetails {
     
     @Override
     public String toString() {
-        return String.format("UserDetails{id='%s', username='%s'}", id, username);
+        return String.format("UserDetailsDto{id='%s', username='%s'}", id, username);
     }
 }
