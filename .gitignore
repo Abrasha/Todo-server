@@ -1,4 +1,5 @@
 *.class
+*.iml
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -11,9 +12,9 @@
 hs_err_pid*
 .idea
 out
-Todo-server.iml
 dump.rdb
 run-*.sh
+init-*.sh
 build
 .gradle
 *.log*
