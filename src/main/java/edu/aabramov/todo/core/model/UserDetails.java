@@ -1,21 +1,21 @@
-package edu.aabramov.todo.web.dto;
+package edu.aabramov.todo.core.model;
 
 import java.util.Objects;
 
 /**
- * @author Andrii Abramov on 11/25/16.
+ * @author Andrii Abramov on 1/10/17.
  */
-public class UserDetailsDto {
-    
+public class UserDetails {
     private String id;
     private String username;
     
-    public UserDetailsDto(String id, String username) {
+    public UserDetails(String id, String username) {
         this.id = id;
         this.username = username;
     }
     
-    public UserDetailsDto() {
+    public UserDetails(User user) {
+        this(user.getId(), user.getUsername());
     }
     
     public String getId() {
@@ -38,7 +38,7 @@ public class UserDetailsDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        UserDetailsDto that = (UserDetailsDto) o;
+        UserDetails that = (UserDetails) o;
         return Objects.equals(id, that.id) &&
                 Objects.equals(username, that.username);
     }

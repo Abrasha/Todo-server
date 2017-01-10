@@ -2,9 +2,9 @@ package edu.aabramov.todo.service;
 
 import edu.aabramov.todo.core.model.Todo;
 import edu.aabramov.todo.core.model.User;
+import edu.aabramov.todo.core.model.UserExistsEntity;
 import edu.aabramov.todo.persistence.repository.user.UserRepository;
 import edu.aabramov.todo.service.cache.UserCache;
-import edu.aabramov.todo.web.dto.UserExistsDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * @author Andrii Abramov on 11/25/16.
@@ -40,7 +38,11 @@ public class UserService {
         LOGGER.debug("User with id = {} requested", id);
         
         return userCache.getById(id)
-                .orElseGet(() -> userRepository.findOne(id));
+                .orElseGet(() -> {
+                    User foundUser = userRepository.findOne(id);
+                    userCache.refreshUserInCache(foundUser);
+                    return foundUser;
+                });
     }
     
     public User update(String id, User user) {
@@ -62,7 +64,11 @@ public class UserService {
         LOGGER.debug("user with username = {} requested", username);
         
         return userCache.getByUsername(username)
-                .orElseGet(() -> userRepository.findOneByUsername(username));
+                .orElseGet(() -> {
+                    User foundUser = userRepository.findOneByUsername(username);
+                    userCache.refreshUserInCache(foundUser);
+                    return foundUser;
+                });
     }
     
     public User insert(String username, String password) {
@@ -70,9 +76,9 @@ public class UserService {
         
         User userToAdd = new User();
         userToAdd.setUsername(username);
-        
         userToAdd.setTodos(new ArrayList<>(0));
         userToAdd.setPassword(passwordEncoder.encode(password));
+    
         User result = userRepository.insert(userToAdd);
         LOGGER.debug("inserting user = {} to cache", userToAdd);
         userCache.refreshUserInCache(result);
@@ -80,27 +86,12 @@ public class UserService {
         return result;
     }
     
-    public UserExistsDto existsWithUsername(String username) {
+    public UserExistsEntity existsWithUsername(String username) {
         LOGGER.debug("check if user with username = {} exists", username);
         
         boolean exists = getByUsername(username) != null;
         LOGGER.debug("user with username {} exists: ", exists);
-        return new UserExistsDto(username, exists);
-    }
-    
-    public List<String> getUsernames() {
-        return userRepository.findAll()
-                .stream()
-                .map(User::getUsername)
-                .collect(toList());
-    }
-    
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
-    }
-    
-    public User getUserDetails(String userId) {
-        return userRepository.getUserDetails(userId);
+        return new UserExistsEntity(username, exists);
     }
     
     public List<Todo> getUserTodos(String userId) {

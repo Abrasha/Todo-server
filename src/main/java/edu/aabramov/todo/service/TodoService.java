@@ -31,7 +31,7 @@ public class TodoService {
         this.userService = userService;
     }
     
-    public User addUserTodo(String id, Todo todo) {
+    public List<Todo> addUserTodo(String id, Todo todo) {
         LOGGER.debug("adding todo: {} to user id: {}", todo, id);
         User user = userService.getUser(id);
         
@@ -41,7 +41,7 @@ public class TodoService {
         
         LOGGER.debug("updating user {} with {}", user.getId(), todo);
         user = userService.update(id, user);
-        return user;
+        return userService.getUserTodos(id);
     }
     
     public List<Todo> getUserTodos(String userId) {

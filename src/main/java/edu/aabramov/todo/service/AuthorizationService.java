@@ -1,7 +1,7 @@
 package edu.aabramov.todo.service;
 
-import edu.aabramov.todo.web.exception.http.NotAuthorizedException;
 import edu.aabramov.todo.core.model.User;
+import edu.aabramov.todo.web.exception.http.NotAuthorizedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

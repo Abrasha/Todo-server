@@ -1,8 +1,8 @@
 package edu.aabramov.todo.service.debug;
 
 import com.github.javafaker.Faker;
-import edu.aabramov.todo.core.util.AppProfiles;
 import edu.aabramov.todo.core.model.User;
+import edu.aabramov.todo.core.util.AppProfiles;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class UserGenerator {
         this.faker = faker;
     }
     
-    public List<User> getRandomUsers(int count) {
+    public List<User> generateRandomUsers(int count) {
         return IntStream.range(0, count)
                 .mapToObj(this::getRandomUser)
                 .collect(Collectors.toList());

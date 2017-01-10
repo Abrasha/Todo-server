@@ -1,15 +1,16 @@
 package edu.aabramov.todo.web.controller.debug;
 
-import edu.aabramov.todo.core.model.User;
+import edu.aabramov.todo.core.model.UserDetails;
 import edu.aabramov.todo.core.util.AppProfiles;
-import edu.aabramov.todo.web.controller.annotation.JsonRestController;
-import edu.aabramov.todo.service.UserService;
 import edu.aabramov.todo.service.debug.DebugUserService;
+import edu.aabramov.todo.web.controller.AbstractUserDetailsController;
+import edu.aabramov.todo.web.controller.annotation.JsonRestController;
 import edu.aabramov.todo.web.dto.UserDetailsDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -20,24 +21,29 @@ import java.util.List;
  */
 @JsonRestController
 @Profile(AppProfiles.TEST)
-public class DebugUserController {
+public class DebugUserDetailsController extends AbstractUserDetailsController {
     
-    private static final Logger LOGGER = LoggerFactory.getLogger(DebugUserController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DebugUserDetailsController.class);
     
     private final DebugUserService debugUserService;
-    private final UserService userService;
     
     @Autowired
-    public DebugUserController(DebugUserService debugUserService, UserService userService) {
+    public DebugUserDetailsController(DebugUserService debugUserService) {
         this.debugUserService = debugUserService;
-        this.userService = userService;
     }
     
     @PostMapping(value = "/users/generate")
-    public List<User> insertRandomUsers(@RequestParam("count") int count) {
+    public List<UserDetailsDto> insertRandomUsers(@RequestParam("count") int count) {
         LOGGER.debug("inserting random users. count = {}", count);
         debugUserService.insertRandomUsers(count);
-        return userService.getAllUsers();
+        List<UserDetails> result = debugUserService.getAllUsers();
+        return convertToUserDetailsDto(result);
+    }
+    
+    @GetMapping(value = "/users")
+    public List<UserDetailsDto> getAllUsers() {
+        List<UserDetails> result = debugUserService.getAllUsers();
+        return convertToUserDetailsDto(result);
     }
     
 }

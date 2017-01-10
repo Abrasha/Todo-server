@@ -1,10 +1,10 @@
 package edu.aabramov.todo.web.controller;
 
-import edu.aabramov.todo.web.controller.annotation.JsonRestController;
-import edu.aabramov.todo.web.dto.UserDto;
 import edu.aabramov.todo.core.model.User;
 import edu.aabramov.todo.service.AuthorizationService;
 import edu.aabramov.todo.service.UserService;
+import edu.aabramov.todo.web.controller.annotation.JsonRestController;
+import edu.aabramov.todo.web.dto.UserDto;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +42,7 @@ public class SecurityController {
         return modelMapper.map(foundUser, UserDto.class);
     }
     
-    @PostMapping(path = "/users")
+    @PostMapping(path = "/register")
     public UserDto registerUser(@RequestHeader(HEADER_USERNAME) String username, @RequestHeader(HEADER_PASSWORD) String password) {
         LOGGER.debug("registering user = {}", username);
         User insertedUser = userService.insert(username, password);

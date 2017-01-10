@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Andrii Abramov on 1/7/17.
@@ -27,21 +28,17 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     @Override
     public List<Todo> getUserTodos(String userId) {
         Query query = ExtractFieldQuery.create(Criteria.where("_id").is(userId), "todos");
-//        Query query = Query.query(Criteria.where("_id").is(userId));
-//        query.fields().include("todos").exclude("_id");
         User result = mongoTemplate.findOne(query, User.class);
         return result.getTodos();
     }
     
-    public static class Todolist {
-        List<Todo> todos;
-        
-        public List<Todo> getTodos() {
-            return todos;
-        }
-        
-        public void setTodos(List<Todo> todos) {
-            this.todos = todos;
-        }
+    @Override
+    public List<String> getUsernames() {
+        Query query = ExtractFieldQuery.create("username");
+        List<User> result = mongoTemplate.find(query, User.class);
+        return result.stream()
+                .map(User::getUsername)
+                .collect(Collectors.toList());
     }
+    
 }

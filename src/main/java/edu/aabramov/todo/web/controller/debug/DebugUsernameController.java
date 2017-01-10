@@ -3,6 +3,7 @@ package edu.aabramov.todo.web.controller.debug;
 import edu.aabramov.todo.core.model.User;
 import edu.aabramov.todo.core.util.AppProfiles;
 import edu.aabramov.todo.service.UserService;
+import edu.aabramov.todo.service.debug.DebugUserService;
 import edu.aabramov.todo.web.controller.annotation.JsonRestController;
 import edu.aabramov.todo.web.dto.UserDto;
 import org.modelmapper.ModelMapper;
@@ -26,17 +27,19 @@ public class DebugUsernameController {
     
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final DebugUserService debugUserService;
     
     @Autowired
-    public DebugUsernameController(UserService userService, ModelMapper modelMapper) {
+    public DebugUsernameController(UserService userService, ModelMapper modelMapper, DebugUserService debugUserService) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.debugUserService = debugUserService;
     }
     
     @GetMapping(path = "/usernames")
     public List<String> getUsernames() {
         LOGGER.debug("all usernames requested");
-        return userService.getUsernames();
+        return debugUserService.getUsernames();
     }
     
     @GetMapping(path = "/usernames/{username}")

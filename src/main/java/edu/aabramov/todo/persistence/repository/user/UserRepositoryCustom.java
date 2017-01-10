@@ -11,4 +11,6 @@ public interface UserRepositoryCustom {
     
     List<Todo> getUserTodos(String userId);
     
+    List<String> getUsernames();
+    
 }

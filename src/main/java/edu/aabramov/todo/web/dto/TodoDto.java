@@ -1,31 +1,28 @@
-package edu.aabramov.todo.core.model;
+package edu.aabramov.todo.web.dto;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.index.Indexed;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import edu.aabramov.todo.core.model.Priority;
+import edu.aabramov.todo.core.model.Status;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
 /**
- * @author Andrii Abramov on 11/24/16.
+ * @author Andrii Abramov on 1/11/17.
  */
-public class Todo implements Serializable {
+public class TodoDto {
     
-    private static final long serialVersionUID = 618982007097689618L;
-    
-    @Id
     private String id;
     
     private String title;
     private String body;
     
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private Date when;
     
     private Priority priority;
     
-    @Indexed
     private Status status;
     
     private List<String> tags;
@@ -90,7 +87,7 @@ public class Todo implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Todo todo = (Todo) o;
+        TodoDto todo = (TodoDto) o;
         return Objects.equals(id, todo.id) &&
                 Objects.equals(title, todo.title) &&
                 Objects.equals(body, todo.body) &&
