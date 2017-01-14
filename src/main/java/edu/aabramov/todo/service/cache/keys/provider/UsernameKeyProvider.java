@@ -11,15 +11,17 @@ import org.springframework.util.Assert;
 @Component
 public class UsernameKeyProvider implements KeyProvider<User> {
     
+    private String CACHE_PREFIX_USERNAME = "user:username:";
+    
     @Override
     public String getKey(User entity) {
         Assert.notNull(entity);
-        return "user:username:" + entity.getUsername();
+        return CACHE_PREFIX_USERNAME + entity.getUsername();
     }
     
     public String getKey(String username) {
         Assert.notNull(username);
-        return "user:username:" + username;
+        return CACHE_PREFIX_USERNAME + username;
     }
     
 }
