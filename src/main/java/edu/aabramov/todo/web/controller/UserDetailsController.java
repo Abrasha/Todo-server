@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author Andrii Abramov on 1/11/17.
  */
 @JsonRestController
-public class UserDetailsController extends MappingController<UserDetails, UserDetailsDto> {
+public class UserDetailsController extends AbstractUserDetailsController {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(UserDetailsController.class);
     
@@ -33,13 +33,4 @@ public class UserDetailsController extends MappingController<UserDetails, UserDe
         return convertToDto(result);
     }
     
-    @Override
-    protected Class<UserDetailsDto> getDtoClass() {
-        return UserDetailsDto.class;
-    }
-    
-    @Override
-    protected Class<UserDetails> getEntityClass() {
-        return UserDetails.class;
-    }
 }

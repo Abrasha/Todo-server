@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author Andrii Abramov on 11/24/16.
  */
 @JsonRestController
-public class UserController extends MappingController<User, UserDto> {
+public class UserController extends AbstractUserController {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     
@@ -31,15 +31,5 @@ public class UserController extends MappingController<User, UserDto> {
         LOGGER.debug("all users requested");
         User foundUser = userService.getUser(userId);
         return convertToDto(foundUser);
-    }
-    
-    @Override
-    protected Class<UserDto> getDtoClass() {
-        return UserDto.class;
-    }
-    
-    @Override
-    protected Class<User> getEntityClass() {
-        return User.class;
     }
 }

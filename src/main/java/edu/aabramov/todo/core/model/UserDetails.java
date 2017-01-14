@@ -6,6 +6,7 @@ import java.util.Objects;
  * @author Andrii Abramov on 1/10/17.
  */
 public class UserDetails {
+    
     private String id;
     private String username;
     

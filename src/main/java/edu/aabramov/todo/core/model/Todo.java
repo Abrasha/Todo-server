@@ -13,8 +13,6 @@ import java.util.Objects;
  */
 public class Todo implements Serializable {
     
-    private static final long serialVersionUID = 618982007097689618L;
-    
     @Id
     private String id;
     
