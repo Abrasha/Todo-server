@@ -1,4 +1,4 @@
-package edu.aabramov.todo.web.controller;
+package edu.aabramov.todo.web.controller.rest;
 
 import edu.aabramov.todo.core.model.Todo;
 import edu.aabramov.todo.web.dto.TodoDto;

@@ -1,8 +1,9 @@
-package edu.aabramov.todo.web.controller;
+package edu.aabramov.todo.web.controller.rest;
 
 import edu.aabramov.todo.core.model.Todo;
 import edu.aabramov.todo.service.TodoService;
 import edu.aabramov.todo.web.controller.annotation.JsonRestController;
+import edu.aabramov.todo.web.controller.rest.path.TodoPaths;
 import edu.aabramov.todo.web.dto.TodoDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,20 +27,20 @@ public class TodoModifierController extends AbstractTodoController {
         this.todoService = todoService;
     }
     
-    @PatchMapping(path = "/users/{userId}/todos/{todoId}")
+    @PatchMapping(path = TodoPaths.USER_TODO)
     public Todo updateTodoForUser(@PathVariable("userId") String userId, @PathVariable("todoId") String todoId, @RequestBody TodoDto todo) {
         LOGGER.debug("todos requested for user with id = {}", userId);
         Todo addedTodo = convertToEntity(todo);
         return todoService.updateTodoForUser(userId, todoId, addedTodo);
     }
     
-    @DeleteMapping(path = "/users/{userId}/todos/{todoId}")
+    @DeleteMapping(path = TodoPaths.USER_TODO)
     public List<Todo> deleteTodoForUser(@PathVariable("userId") String userId, @PathVariable("todoId") String todoId) {
         LOGGER.debug("delete todo with id = for user with id = {}", todoId, userId);
         return todoService.deleteTodoForUser(userId, todoId);
     }
     
-    @PostMapping(path = "/users/{userId}/todos")
+    @PostMapping(path = TodoPaths.USER_TODOS)
     public List<TodoDto> addUserTodo(@PathVariable("userId") String userId, @RequestBody TodoDto todo) {
         LOGGER.debug("adding todo = {} to userId = {}", todo, userId);
         Todo updatedTodo = convertToEntity(todo);

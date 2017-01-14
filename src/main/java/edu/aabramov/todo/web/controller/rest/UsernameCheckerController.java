@@ -1,8 +1,9 @@
-package edu.aabramov.todo.web.controller;
+package edu.aabramov.todo.web.controller.rest;
 
 import edu.aabramov.todo.core.model.UserExistsEntity;
 import edu.aabramov.todo.service.UserService;
 import edu.aabramov.todo.web.controller.annotation.JsonRestController;
+import edu.aabramov.todo.web.controller.rest.path.UsernamePaths;
 import edu.aabramov.todo.web.dto.UserExistsDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,7 @@ public class UsernameCheckerController extends AbstractUserExistsController {
         this.userService = userService;
     }
     
-    @GetMapping(path = "/usernames/exists/{username}")
+    @GetMapping(path = UsernamePaths.USERNAMES_EXISTS)
     public UserExistsDto checkIfUserExists(@PathVariable("username") String username) {
         LOGGER.debug("user with {} username requested", username);
         UserExistsEntity result = userService.existsWithUsername(username);

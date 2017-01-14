@@ -1,10 +1,11 @@
-package edu.aabramov.todo.web.controller;
+package edu.aabramov.todo.web.controller.rest;
 
 import edu.aabramov.todo.core.model.Priority;
 import edu.aabramov.todo.core.model.Status;
 import edu.aabramov.todo.core.model.Todo;
 import edu.aabramov.todo.service.TodoService;
 import edu.aabramov.todo.web.controller.annotation.JsonRestController;
+import edu.aabramov.todo.web.controller.rest.path.TodoPaths;
 import edu.aabramov.todo.web.dto.TodoDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,35 +31,35 @@ public class TodoProviderController extends AbstractTodoController {
         this.todoService = todoService;
     }
     
-    @GetMapping(path = "/users/{userId}/todos")
+    @GetMapping(path = TodoPaths.USER_TODOS)
     public List<TodoDto> getUserTodos(@PathVariable("userId") String userId) {
         LOGGER.debug("todos requested for user with id = {}", userId);
         List<Todo> result = todoService.getUserTodos(userId);
         return convertToTodoDto(result);
     }
     
-    @GetMapping(path = "/users/{userId}/todos", params = "priority")
+    @GetMapping(path = TodoPaths.USER_TODOS, params = "priority")
     public List<TodoDto> getUserTodosWithPriority(@PathVariable("userId") String userId, @RequestParam("priority") Priority priority) {
         LOGGER.debug("todos requested for user with id = {} with priority = {}", userId, priority);
         List<Todo> result = todoService.getTodoForUserWithPriority(userId, priority);
         return convertToTodoDto(result);
     }
     
-    @GetMapping(path = "/users/{userId}/todos", params = "tag")
+    @GetMapping(path = TodoPaths.USER_TODOS, params = "tag")
     public List<TodoDto> getUserTodosWithTag(@PathVariable("userId") String userId, @RequestParam("tag") String tag) {
         LOGGER.debug("todos requested for user with id = {} with tag = {}", userId, tag);
         List<Todo> result = todoService.getTodoForUserWithTag(userId, tag);
         return convertToTodoDto(result);
     }
     
-    @GetMapping(path = "/users/{userId}/todos", params = "status")
+    @GetMapping(path = TodoPaths.USER_TODOS, params = "status")
     public List<TodoDto> getUserTodosWithStatus(@PathVariable("userId") String userId, @RequestParam("status") Status status) {
         LOGGER.debug("todos requested for user with id = {} with status = {}", userId, status);
         List<Todo> result = todoService.getTodoForUserWithStatus(userId, status);
         return convertToTodoDto(result);
     }
     
-    @GetMapping(path = "/users/{userId}/todos/{todoId}")
+    @GetMapping(path = TodoPaths.USER_TODO)
     public TodoDto getTodoForUser(@PathVariable("userId") String userId, @PathVariable("todoId") String todoId) {
         LOGGER.debug("todos requested for user with id = {}", userId);
         return convertToDto(todoService.getTodoForUser(userId, todoId));

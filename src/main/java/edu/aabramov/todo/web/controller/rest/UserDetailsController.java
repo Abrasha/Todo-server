@@ -1,8 +1,9 @@
-package edu.aabramov.todo.web.controller;
+package edu.aabramov.todo.web.controller.rest;
 
 import edu.aabramov.todo.core.model.UserDetails;
 import edu.aabramov.todo.service.UserDetailsService;
 import edu.aabramov.todo.web.controller.annotation.JsonRestController;
+import edu.aabramov.todo.web.controller.rest.path.UserDetailsPaths;
 import edu.aabramov.todo.web.dto.UserDetailsDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,7 +27,7 @@ public class UserDetailsController extends AbstractUserDetailsController {
         LOGGER.debug("UserController init");
     }
     
-    @GetMapping(path = "/users/{userId}/details")
+    @GetMapping(path = UserDetailsPaths.USER_DETAILS)
     public UserDetailsDto getUserDetails(@PathVariable("userId") String userId) {
         LOGGER.debug("user details {} requested", userId);
         UserDetails result = userDetailsService.getUserDetails(userId);

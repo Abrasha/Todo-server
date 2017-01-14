@@ -1,10 +1,11 @@
-package edu.aabramov.todo.web.controller.debug;
+package edu.aabramov.todo.web.controller.rest.debug;
 
 import edu.aabramov.todo.core.model.User;
 import edu.aabramov.todo.core.util.AppProfiles;
 import edu.aabramov.todo.service.UserService;
 import edu.aabramov.todo.service.debug.DebugUserService;
 import edu.aabramov.todo.web.controller.annotation.JsonRestController;
+import edu.aabramov.todo.web.controller.rest.path.UsernamePaths;
 import edu.aabramov.todo.web.dto.UserDto;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -36,13 +37,13 @@ public class DebugUsernameController {
         this.debugUserService = debugUserService;
     }
     
-    @GetMapping(path = "/usernames")
+    @GetMapping(path = UsernamePaths.USERNAMES_ROOT)
     public List<String> getUsernames() {
         LOGGER.debug("all usernames requested");
         return debugUserService.getUsernames();
     }
     
-    @GetMapping(path = "/usernames/{username}")
+    @GetMapping(path = UsernamePaths.USERNAMES_ROOT + "/{username}")
     public UserDto getUserByUsername(@PathVariable("username") String username) {
         LOGGER.debug("user with {} username requested", username);
         User foundUser = userService.getByUsername(username);

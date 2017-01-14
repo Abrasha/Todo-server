@@ -40,7 +40,8 @@ public class TodoService {
         user.getTodos().add(todo);
         
         LOGGER.debug("updating user {} with {}", user.getId(), todo);
-        user = userService.update(id, user);
+        User result = userService.update(id, user);
+        LOGGER.trace("updated result = {}", result);
         return userService.getUserTodos(id);
     }
     

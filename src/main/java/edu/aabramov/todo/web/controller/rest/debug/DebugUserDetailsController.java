@@ -1,10 +1,11 @@
-package edu.aabramov.todo.web.controller.debug;
+package edu.aabramov.todo.web.controller.rest.debug;
 
 import edu.aabramov.todo.core.model.UserDetails;
 import edu.aabramov.todo.core.util.AppProfiles;
 import edu.aabramov.todo.service.debug.DebugUserService;
-import edu.aabramov.todo.web.controller.AbstractUserDetailsController;
 import edu.aabramov.todo.web.controller.annotation.JsonRestController;
+import edu.aabramov.todo.web.controller.rest.AbstractUserDetailsController;
+import edu.aabramov.todo.web.controller.rest.path.UserPaths;
 import edu.aabramov.todo.web.dto.UserDetailsDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,7 @@ public class DebugUserDetailsController extends AbstractUserDetailsController {
         this.debugUserService = debugUserService;
     }
     
-    @PostMapping(value = "/users/generate")
+    @PostMapping(value = UserPaths.USERS_ROOT + "/generate")
     public List<UserDetailsDto> insertRandomUsers(@RequestParam("count") int count) {
         LOGGER.debug("inserting random users. count = {}", count);
         debugUserService.insertRandomUsers(count);
@@ -40,7 +41,7 @@ public class DebugUserDetailsController extends AbstractUserDetailsController {
         return convertToUserDetailsDto(result);
     }
     
-    @GetMapping(value = "/users")
+    @GetMapping(value = UserPaths.USERS_ROOT)
     public List<UserDetailsDto> getAllUsers() {
         List<UserDetails> result = debugUserService.getAllUsers();
         return convertToUserDetailsDto(result);
