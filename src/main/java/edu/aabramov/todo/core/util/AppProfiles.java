@@ -5,6 +5,9 @@ package edu.aabramov.todo.core.util;
  */
 public final class AppProfiles {
     
+    private AppProfiles() {
+    }
+    
     public static final String TEST = "test";
     public static final String PRODUCTION = "production";
     

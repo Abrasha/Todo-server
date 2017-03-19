@@ -5,6 +5,9 @@ package edu.aabramov.todo.web.controller.rest.path;
  */
 public final class TodoPaths {
     
+    private TodoPaths() {
+    }
+    
     public static final String USER_TODOS = UserPaths.USER_ID + "/todos";
     public static final String USER_TODO = USER_TODOS + "/{todoId}";
     
