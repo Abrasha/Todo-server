@@ -5,6 +5,9 @@ package edu.aabramov.todo.web.controller.rest.path;
  */
 public final class UsernamePaths {
     
+    private UsernamePaths() {
+    }
+    
     public static final String USERNAMES_ROOT = "/usernames";
     public static final String USERNAMES_EXISTS = "/usernames/exists/{username}";
     

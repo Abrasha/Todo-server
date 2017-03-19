@@ -5,6 +5,9 @@ package edu.aabramov.todo.web.controller.rest.path;
  */
 public final class UserPaths {
     
+    private UserPaths() {
+    }
+    
     public static final String USERS_ROOT = "/users";
     public static final String USER_ID = USERS_ROOT + "/{userId}";
     

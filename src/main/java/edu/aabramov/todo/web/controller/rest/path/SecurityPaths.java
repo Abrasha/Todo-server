@@ -5,7 +5,10 @@ package edu.aabramov.todo.web.controller.rest.path;
  */
 public final class SecurityPaths {
     
-    public static final String AUTHOTIZE = "/authorize";
+    private SecurityPaths() {
+    }
+    
+    public static final String AUTHORIZE = "/authorize";
     public static final String REGISTER = "/register";
     
 }

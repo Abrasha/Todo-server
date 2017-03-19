@@ -36,7 +36,7 @@ public class SecurityController {
     }
     
     
-    @PostMapping(value = SecurityPaths.AUTHOTIZE)
+    @PostMapping(value = SecurityPaths.AUTHORIZE)
     public UserDto authorize(@RequestHeader(HEADER_USERNAME) String username, @RequestHeader(HEADER_PASSWORD) String password) {
         LOGGER.debug("Perform authentication for {}", username);
         User foundUser = authorizationService.authorize(username, password);
